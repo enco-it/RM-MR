@@ -40,8 +40,9 @@
     .skip:focus { left: 8px; top: 8px; z-index: 50; background: var(--white); padding: 8px 12px; color: var(--navy); }
     .app {
       display: grid;
-      grid-template-rows: auto auto 1fr;
+      grid-template-rows: auto auto 1fr auto auto;
       min-height: 100dvh;
+      height: 100dvh;
     }
     header {
       height: var(--header-h);
@@ -116,6 +117,7 @@
       border-bottom: 1px solid var(--line);
       flex-wrap: wrap;
     }
+    #stage-chips { display: flex; flex-wrap: wrap; gap: 6px; flex: 1 1 100%; }
     .stage-chip, .track-chip {
       appearance: none;
       border: 1px solid var(--line);
@@ -126,6 +128,7 @@
       padding: 6px 10px;
       cursor: pointer;
       letter-spacing: 0.02em;
+      flex-shrink: 0;
     }
     .stage-chip[aria-pressed="true"] {
       background: var(--navy);
@@ -183,6 +186,7 @@
     .view.active { display: block; }
     .stage-area[data-view="map"] .map-scroll { display: block; }
     .stage-area:not([data-view="map"]) .map-scroll { display: none; }
+    .stage-area:has(.panel.open) .map-scroll { margin-right: min(440px, 42vw); }
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -290,7 +294,14 @@
       line-height: 1.2;
       margin: 6px 0 8px;
     }
-    .panel-h .when { font-size: 13px; color: var(--muted); }
+    .panel-h .when { font-size: 13px; color: var(--muted); padding-right: 28px; overflow-wrap: anywhere; }
+    .panel-body {
+      overflow: auto;
+      padding: 16px 20px 32px;
+      display: grid;
+      gap: 16px;
+      overflow-wrap: anywhere;
+    }
     .close {
       position: absolute;
       top: 14px;
@@ -302,12 +313,6 @@
       color: var(--navy);
       font-size: 22px;
       cursor: pointer;
-    }
-    .panel-body {
-      overflow: auto;
-      padding: 16px 20px 32px;
-      display: grid;
-      gap: 16px;
     }
     .panel-body h3 {
       font-size: 12px;
@@ -342,7 +347,7 @@
       gap: 18px;
       flex-wrap: wrap;
       align-items: center;
-      padding: 8px 24px 16px;
+      padding: 6px 24px 8px;
       font-size: 12px;
       color: var(--muted);
       position: relative;
@@ -370,7 +375,7 @@
     footer.site {
       background: var(--navy);
       color: var(--white);
-      padding: 18px 24px;
+      padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       gap: 16px;
@@ -381,6 +386,8 @@
     footer.site svg { height: 16px; width: auto; display: block; }
     .empty { color: var(--muted); font-size: 14px; }
     @media (max-width: 900px) {
+      html, body { height: auto; }
+      .app { height: auto; min-height: 100dvh; grid-template-rows: auto auto auto auto auto; }
       header {
         height: auto;
         flex-direction: column;
@@ -388,22 +395,26 @@
         padding: 12px 16px;
         gap: 8px;
       }
-      nav { width: 100%; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
-      nav button { white-space: nowrap; font-size: 12px; padding: 8px 10px; }
+      nav { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 0; }
+      nav button { white-space: nowrap; font-size: 11px; padding: 6px 8px; }
       .toolbar { padding: 8px 16px; }
-      .hint { margin-left: 0; width: 100%; }
+      .hint { display: none; }
       .stage-area { min-height: 70vh; }
-      .map-scroll { min-height: 640px; }
-      #roadmap { min-height: 640px; height: auto; }
+      .map-scroll { min-height: 720px; }
+      #roadmap { min-height: 720px; height: auto; }
+      .stage-area:has(.panel.open) .map-scroll { margin-right: 0; }
       .panel {
+        position: fixed;
         top: auto;
+        bottom: 0;
         left: 0;
         right: 0;
         width: 100%;
-        height: min(72vh, 640px);
+        height: min(68dvh, 560px);
         border-left: 0;
         border-top: 1px solid var(--line);
         transform: translateY(110%);
+        z-index: 40;
       }
       .panel.open { transform: translateY(0); }
       .tracks { grid-template-columns: 1fr; }
@@ -453,7 +464,6 @@
         <div class="panel-body" id="panel-body"></div>
       </aside>
     </div>
-  </div>
   <div class="legend-bar">
     <span class="swatch"><i class="navy"></i> Фундаментал — целевой контур</span>
     <span class="swatch"><i class="dash"></i> Паллиатив — быстрая управленка на текущих данных</span>
@@ -466,6 +476,7 @@
     </svg>
     <p>Мы меняем мир к лучшему, задавая правила и стандарты. Источник: пространство OVKS, страница «Управленческие отчеты» и этапы 1–4. Цифры, маппинг счетов и суммы сюда не выносились.</p>
   </footer>
+  </div>
   <script>
     const NAVY = "#122A4B";
     const GRAY = "#758795";
@@ -838,6 +849,11 @@
         el.classList.toggle("active", on);
       });
       if (name !== "map") closePanel();
+      if (name === "map") {
+        if (!location.hash.startsWith("#e")) history.replaceState(null, "", location.pathname + location.search);
+      } else {
+        history.replaceState(null, "", "#" + name);
+      }
     }
 
     function openStage(id) {
@@ -885,32 +901,32 @@
     }
 
     function drawHorizontal() {
-      const W = 1440, H = 520;
+      const W = 1440, H = 500;
       svg.setAttribute("viewBox", "0 0 " + W + " " + H);
       svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
       const xs = [110, 300, 510, 760, 980, 1160, 1330];
-      const yF = 118, yS = 248, yP = 378;
+      const yF = 100, yS = 230, yP = 400;
       const pallFrom = 2, pallTo = 4;
       let g = "";
-      g += `<text x="40" y="36" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2026.09</text>`;
-      g += `<text x="500" y="36" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2026.12</text>`;
-      g += `<text x="780" y="36" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2027</text>`;
-      g += `<text x="1280" y="36" fill="${MUTED}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">постоянно →</text>`;
-      g += `<line x1="40" y1="48" x2="1400" y2="48" stroke="${LINE}" />`;
+      g += `<text x="40" y="28" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2026.09</text>`;
+      g += `<text x="500" y="28" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2026.12</text>`;
+      g += `<text x="780" y="28" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2027</text>`;
+      g += `<text x="1280" y="28" fill="${MUTED}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">постоянно →</text>`;
+      g += `<line x1="40" y1="40" x2="1400" y2="40" stroke="${LINE}" />`;
 
       const policyX = (xs[2] + xs[3]) / 2;
-      g += `<line x1="${policyX}" y1="58" x2="${policyX}" y2="470" stroke="${GOLD}" stroke-width="2" stroke-dasharray="4 6" />`;
-      g += `<text x="${policyX + 8}" y="74" fill="${NAVY}" font-size="11" font-weight="600" font-family="Montserrat, Arial, sans-serif">Учётная политика 01.01.2027</text>`;
+      g += `<line x1="${policyX}" y1="50" x2="${policyX}" y2="460" stroke="${GOLD}" stroke-width="2" stroke-dasharray="4 6" />`;
+      g += `<text x="${policyX + 8}" y="64" fill="${NAVY}" font-size="11" font-weight="600" font-family="Montserrat, Arial, sans-serif">Учётная политика 01.01.2027</text>`;
 
       if (state.tracks.fundamental) {
-        g += `<text x="40" y="${yF - 48}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ФУНДАМЕНТАЛ</text>`;
+        g += `<text x="40" y="${yF - 22}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ФУНДАМЕНТАЛ</text>`;
         g += `<path d="M${xs[0]} ${yF} L${xs[6]} ${yF}" fill="none" stroke="${NAVY}" stroke-width="6" />`;
       }
       g += `<path d="M${xs[0]} ${yS} L${xs[6]} ${yS}" fill="none" stroke="${NAVY}" stroke-width="3" />`;
       if (state.tracks.palliative) {
-        g += `<text x="40" y="${yP - 48}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ПАЛЛИАТИВ</text>`;
+        g += `<text x="40" y="${yP + 5}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ПАЛЛИАТИВ</text>`;
         g += `<path d="M${xs[pallFrom]} ${yP} L${xs[pallTo]} ${yP}" fill="none" stroke="${GOLD}" stroke-width="6" stroke-dasharray="10 8" />`;
-        g += `<text x="${(xs[2] + xs[3]) / 2}" y="${yP + 36}" text-anchor="middle" fill="${MUTED}" font-size="11" font-family="Montserrat, Arial, sans-serif">обмен и минимальные отчёты → замена на интеграции → отказ от паллиативных отчётов</text>`;
+        g += `<text x="${(xs[2] + xs[3]) / 2}" y="${yP + 32}" text-anchor="middle" fill="${MUTED}" font-size="11" font-family="Montserrat, Arial, sans-serif">обмен и минимальные отчёты → замена на интеграции → отказ от паллиативных отчётов</text>`;
       }
 
       for (let i = 0; i < 6; i++) {
@@ -945,17 +961,17 @@
       const W = 360, H = 1180;
       svg.setAttribute("viewBox", "0 0 " + W + " " + H);
       svg.setAttribute("preserveAspectRatio", "xMidYMin meet");
-      const xS = 180, xF = 70, xP = 290;
+      const xS = 168, xF = 48, xP = 288;
       const ys = [90, 250, 410, 570, 730, 890, 1050];
       let g = "";
       g += `<text x="24" y="32" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">Этапы 0–6</text>`;
       if (state.tracks.fundamental) {
-        g += `<text x="${xF}" y="54" text-anchor="middle" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ФУНД.</text>`;
+        g += `<text x="24" y="54" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ФУНД.</text>`;
         g += `<path d="M${xF} ${ys[0]} L${xF} ${ys[6]}" stroke="${NAVY}" stroke-width="5" />`;
       }
       g += `<path d="M${xS} ${ys[0]} L${xS} ${ys[6]}" stroke="${NAVY}" stroke-width="3" />`;
       if (state.tracks.palliative) {
-        g += `<text x="${xP}" y="54" text-anchor="middle" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ПАЛЛ.</text>`;
+        g += `<text x="336" y="54" text-anchor="end" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ПАЛЛ.</text>`;
         g += `<path d="M${xP} ${ys[2]} L${xP} ${ys[4]}" stroke="${GOLD}" stroke-width="5" stroke-dasharray="8 6" />`;
       }
       const policyY = (ys[2] + ys[3]) / 2;
@@ -1072,14 +1088,26 @@
     });
     window.addEventListener("resize", () => { drawGrid(); draw(); });
     window.addEventListener("hashchange", () => {
-      const m = location.hash.match(/^#e([0-6])$/);
-      if (m) openStage(Number(m[1]));
+      const h = location.hash.slice(1);
+      const m = h.match(/^e([0-6])$/);
+      if (m) {
+        setView("map");
+        openStage(Number(m[1]));
+      } else if (["principles", "systems", "debt", "risks"].includes(h)) {
+        setView(h);
+      } else if (h === "map" || h === "") {
+        setView("map");
+      }
     });
 
     drawGrid();
     draw();
-    const boot = location.hash.match(/^#e([0-6])$/);
-    if (boot) openStage(Number(boot[1]));
+    (function boot() {
+      const h = location.hash.slice(1);
+      const m = h.match(/^e([0-6])$/);
+      if (m) openStage(Number(m[1]));
+      else if (["principles", "systems", "debt", "risks"].includes(h)) setView(h);
+    })();
   </script>
 </body>
 </html>
