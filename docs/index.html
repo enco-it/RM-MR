@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Управленческие отчеты — дорожная карта контура УО ЭНКО. RM-MR: этапы 0–6 OVKS, паллиатив и фундаментал." />
+  <title>Управленческие отчеты · RM-MR · ЭНКО</title>
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #122A4B;
+      --gray: #758795;
+      --gold: #CFC393;
+      --bg: #F9F9F9;
+      --white: #FFFFFF;
+      --text: #292929;
+      --muted: #797979;
+      --line: #E6E6E6;
+      --wash: #EBEBEB;
+      --ink: #141414;
+      --header-h: 69px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    html, body {
+      min-height: 100%;
+      min-height: 100dvh;
+    }
+    body {
+      font-family: Montserrat, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+    button, a { font-family: inherit; }
+    .skip {
+      position: absolute; left: -999px; top: 0;
+    }
+    .skip:focus { left: 8px; top: 8px; z-index: 50; background: var(--white); padding: 8px 12px; color: var(--navy); }
+    .app {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      min-height: 100dvh;
+    }
+    header {
+      height: var(--header-h);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+    .brand svg { display: block; height: 22px; width: auto; }
+    .brand-copy { min-width: 0; }
+    .brand-copy h1 {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+    .brand-copy p {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    nav button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      cursor: pointer;
+      position: relative;
+    }
+    nav button[aria-current="page"]::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 2px;
+      height: 2px;
+      background: var(--gold);
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+    .stage-chip, .track-chip {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 10px;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+    }
+    .stage-chip[aria-pressed="true"] {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+    .track-chip[data-track="fundamental"][aria-pressed="true"] {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+    .track-chip[data-track="palliative"][aria-pressed="true"] {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+    }
+    .hint {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .stage-area {
+      position: relative;
+      min-height: 0;
+      background: var(--bg);
+    }
+    .bg-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .map-scroll {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      min-height: 520px;
+      overflow: auto;
+    }
+    #roadmap {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+    }
+    .view {
+      display: none;
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      overflow: auto;
+      padding: 24px;
+    }
+    .view.active { display: block; }
+    .stage-area[data-view="map"] .map-scroll { display: block; }
+    .stage-area:not([data-view="map"]) .map-scroll { display: none; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto 32px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      padding: 20px;
+    }
+    .card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .card p, .card li {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .card ul { padding-left: 18px; }
+    .card .meta {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .sys-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .sys {
+      background: var(--white);
+      border: 1px solid var(--line);
+      padding: 14px 16px;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+    }
+    .sys:hover, .sys:focus { border-color: var(--gold); }
+    .sys.gold-src { box-shadow: inset 3px 0 0 var(--gold); }
+    .sys .k { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .sys strong { display: block; color: var(--navy); font-size: 14px; margin: 4px 0; }
+    .sys span { font-size: 13px; color: var(--text); line-height: 1.45; }
+    .table-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: auto;
+      background: var(--white);
+      border: 1px solid var(--line);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--navy); font-weight: 600; background: var(--white); }
+    .lead {
+      max-width: 1200px;
+      margin: 0 auto 20px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .lead strong { color: var(--navy); }
+    .panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: min(440px, 100%);
+      height: 100%;
+      background: var(--white);
+      border-left: 1px solid var(--line);
+      z-index: 8;
+      transform: translateX(110%);
+      transition: transform 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: none;
+    }
+    .panel.open { transform: translateX(0); }
+    .panel header.panel-h {
+      position: static;
+      height: auto;
+      padding: 18px 20px 12px;
+      border-bottom: 1px solid var(--line);
+      display: block;
+    }
+    .panel-h .num {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .panel-h h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.2;
+      margin: 6px 0 8px;
+    }
+    .panel-h .when { font-size: 13px; color: var(--muted); }
+    .close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      background: transparent;
+      color: var(--navy);
+      font-size: 22px;
+      cursor: pointer;
+    }
+    .panel-body {
+      overflow: auto;
+      padding: 16px 20px 32px;
+      display: grid;
+      gap: 16px;
+    }
+    .panel-body h3 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .panel-body p, .panel-body li { font-size: 14px; line-height: 1.55; }
+    .panel-body ul { padding-left: 18px; }
+    .tracks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .tracks article {
+      border: 1px solid var(--line);
+      padding: 12px;
+    }
+    .tracks article.f { border-top: 3px solid var(--navy); }
+    .tracks article.p { border-top: 3px solid var(--gold); }
+    .callout {
+      background: var(--bg);
+      border-left: 3px solid var(--gold);
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .legend-bar {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 8px 24px 16px;
+      font-size: 12px;
+      color: var(--muted);
+      position: relative;
+      z-index: 2;
+    }
+    .swatch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .swatch i {
+      width: 18px;
+      height: 4px;
+      display: inline-block;
+    }
+    .swatch .navy { background: var(--navy); }
+    .swatch .gold { background: var(--gold); }
+    .swatch .dash { background: repeating-linear-gradient(90deg, var(--gold) 0 6px, transparent 6px 10px); }
+    .swatch .dia {
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+    footer.site {
+      background: var(--navy);
+      color: var(--white);
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    footer.site p { font-size: 13px; line-height: 1.5; color: #fff; opacity: 0.9; }
+    footer.site svg { height: 16px; width: auto; display: block; }
+    .empty { color: var(--muted); font-size: 14px; }
+    @media (max-width: 900px) {
+      header {
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 16px;
+        gap: 8px;
+      }
+      nav { width: 100%; justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; }
+      nav button { white-space: nowrap; font-size: 12px; padding: 8px 10px; }
+      .toolbar { padding: 8px 16px; }
+      .hint { margin-left: 0; width: 100%; }
+      .stage-area { min-height: 70vh; }
+      .map-scroll { min-height: 640px; }
+      #roadmap { min-height: 640px; height: auto; }
+      .panel {
+        top: auto;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: min(72vh, 640px);
+        border-left: 0;
+        border-top: 1px solid var(--line);
+        transform: translateY(110%);
+      }
+      .panel.open { transform: translateY(0); }
+      .tracks { grid-template-columns: 1fr; }
+      .view { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#map">К карте этапов</a>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 91 17" role="img" aria-label="ЭНКО">
+          <path fill="#122A4B" d="M19.6188 8.49796C19.6188 13.3635 16.115 16.5209 9.35033 16.5209C2.58565 16.5209 0 16.3467 0 16.3467V13.4873C0 13.4873 4.45901 13.6683 8.60373 13.6683C12.7485 13.6683 15.2861 11.9249 15.5111 9.75414H2.59663V7.23905H15.5111C15.2833 5.06829 13.5129 3.32623 8.60373 3.32623C3.69457 3.32623 0 3.50725 0 3.50725V0.649187C0 0.649187 3.84691 0.474982 9.35033 0.474982C14.8538 0.474982 19.6188 3.63382 19.6188 8.49796ZM61.9019 10.2019C61.6878 10.0141 61.4654 9.82355 61.2252 9.63574C60.9837 9.44792 60.7339 9.271 60.4649 9.1104C60.1959 8.9498 59.9105 8.80282 59.603 8.67761C59.2984 8.55104 58.9731 8.4476 58.63 8.37683C58.9347 8.29245 59.2311 8.18221 59.5001 8.05564C59.7691 7.92907 60.0271 7.79025 60.2783 7.63646C60.5198 7.48267 60.7504 7.31527 60.9727 7.14106C61.195 6.96686 61.3982 6.79265 61.5931 6.60892L67.8294 0.788007H63.1027L57.4593 6.04956C57.2919 6.20335 57.1437 6.34353 57.0064 6.45513C56.8664 6.57353 56.7292 6.67152 56.581 6.7491C56.441 6.83212 56.2845 6.89609 56.1267 6.95189C55.9702 7.00088 55.7836 7.04307 55.5887 7.07029C55.3856 7.09751 55.1523 7.11929 54.8943 7.1329C54.6335 7.14651 54.3288 7.15331 53.9857 7.15331H51.2422V0.789368H47.0714V16.2065H51.2422V9.65071H53.9953C54.3384 9.65071 54.6431 9.65071 54.9039 9.67112C55.1619 9.68473 55.3952 9.70515 55.5901 9.73373C55.7932 9.76095 55.9702 9.80314 56.1281 9.85213C56.2845 9.90113 56.4437 9.97054 56.581 10.0549C56.7209 10.1393 56.8582 10.2359 56.9982 10.3489C57.1368 10.4673 57.2946 10.6007 57.4511 10.7545L63.2976 16.2052H68.3289L61.8881 10.2019H61.9019ZM39.3831 7.21864H26.6319V0.789368H22.4611V16.2065H26.6319V9.73509H39.3831V16.2065H43.5539V0.789368H39.3831V7.21864ZM90.7049 5.92162C90.5018 5.24386 90.1944 4.60147 89.7882 4.00809C89.3792 3.40789 88.8631 2.8635 88.2318 2.37491C87.6033 1.87951 86.8621 1.45897 86.0003 1.11056C85.1384 0.762149 84.1571 0.488592 83.0646 0.293972C81.9722 0.0979906 80.7137 0 79.3989 0C78.0841 0 76.8901 0.0993515 75.8073 0.293972C74.723 0.495397 73.7514 0.768954 72.8909 1.12417C72.029 1.48075 71.2796 1.90673 70.6414 2.40213C69.9937 2.89753 69.4639 3.44192 69.0398 4.03531C68.613 4.63005 68.2987 5.26563 68.0846 5.94204C67.8719 6.61845 67.769 7.76303 67.769 8.4966C67.769 9.23017 67.8623 10.387 68.0654 11.0716C68.2685 11.7561 68.5732 12.3917 68.9822 12.9919C69.3912 13.5921 69.9086 14.1365 70.5385 14.6251C71.1671 15.1137 71.9082 15.541 72.7701 15.8894C73.632 16.2379 74.6119 16.5114 75.7139 16.706C76.8146 16.902 78.0347 17 79.3852 17C80.6876 17 81.8816 16.9006 82.9631 16.706C84.0473 16.5046 85.019 16.231 85.8795 15.8758C86.7414 15.5193 87.4907 15.0933 88.1289 14.5979C88.7767 14.0957 89.3064 13.5499 89.7305 12.9579C90.1573 12.3631 90.4716 11.7276 90.6843 11.0512C90.8984 10.3748 91 9.23697 91 8.5034C91 7.76983 90.9067 6.60756 90.7036 5.92162H90.7049ZM86.5437 10.3584C86.4257 10.813 86.2487 11.2308 85.9948 11.6296C85.7505 12.0188 85.428 12.3822 85.0354 12.7116C84.6443 13.0409 84.1832 13.3199 83.6342 13.5567C83.0962 13.7881 82.469 13.9691 81.7636 14.1025C81.0691 14.2345 80.2745 14.2971 79.3934 14.2971C78.5123 14.2971 77.719 14.2358 77.0122 14.1025C76.3082 13.9759 75.6892 13.7949 75.1416 13.5567C74.594 13.3199 74.1343 13.0395 73.7418 12.7116C73.3506 12.3836 73.0377 12.0283 72.7824 11.6296C72.5272 11.2308 72.3405 10.813 72.2239 10.3584C72.1072 9.91202 72.0482 8.98383 72.0482 8.51021C72.0482 8.03659 72.1072 7.10976 72.2239 6.65519C72.3515 6.20062 72.5272 5.7828 72.7824 5.38404C73.035 4.9948 73.3492 4.63141 73.7418 4.30206C74.1329 3.9727 74.5927 3.6937 75.1416 3.45689C75.6796 3.22552 76.3068 3.04451 77.0122 2.91114C77.7163 2.77912 78.5219 2.71652 79.3934 2.71652C80.2649 2.71652 81.0595 2.77776 81.7636 2.91114C82.4676 3.03771 83.0852 3.21872 83.6342 3.45689C84.1722 3.6937 84.6443 3.97406 85.0354 4.30206C85.4266 4.63005 85.7395 4.98527 85.9948 5.38404C86.2404 5.7828 86.4271 6.20062 86.5437 6.65519C86.6604 7.10159 86.7194 8.03523 86.7194 8.51021C86.7194 8.98519 86.6631 9.90521 86.5437 10.3584Z"/>
+        </svg>
+        <div class="brand-copy">
+          <h1>Управленческие отчеты</h1>
+          <p>RM-MR · Road map Management Report</p>
+        </div>
+      </div>
+      <nav aria-label="Разделы">
+        <button type="button" data-view="map" aria-current="page">Карта</button>
+        <button type="button" data-view="principles">Принципы</button>
+        <button type="button" data-view="systems">Системы</button>
+        <button type="button" data-view="debt">Техдолг</button>
+        <button type="button" data-view="risks">Риски</button>
+      </nav>
+    </header>
+    <div class="toolbar" id="map-toolbar">
+      <div id="stage-chips" role="toolbar" aria-label="Этапы 0–6"></div>
+      <button type="button" class="track-chip" data-track="fundamental" aria-pressed="true">Фундаментал</button>
+      <button type="button" class="track-chip" data-track="palliative" aria-pressed="true">Паллиатив</button>
+      <p class="hint">Нажмите этап или Gate · клавиши 0–6 · Esc закрывает карточку</p>
+    </div>
+    <div class="stage-area" data-view="map" id="stage-area">
+      <canvas class="bg-canvas" id="grid" aria-hidden="true"></canvas>
+      <div class="map-scroll" id="map">
+        <svg id="roadmap" role="img" aria-label="Интерактивная дорожная карта этапов 0–6"></svg>
+      </div>
+      <section class="view" id="view-principles" hidden></section>
+      <section class="view" id="view-systems" hidden></section>
+      <section class="view" id="view-debt" hidden></section>
+      <section class="view" id="view-risks" hidden></section>
+      <aside class="panel" id="panel" aria-hidden="true">
+        <button class="close" type="button" aria-label="Закрыть">×</button>
+        <header class="panel-h" id="panel-h"></header>
+        <div class="panel-body" id="panel-body"></div>
+      </aside>
+    </div>
+  </div>
+  <div class="legend-bar">
+    <span class="swatch"><i class="navy"></i> Фундаментал — целевой контур</span>
+    <span class="swatch"><i class="dash"></i> Паллиатив — быстрая управленка на текущих данных</span>
+    <span class="swatch"><i class="dia"></i> Gate: A принимает, команда сдаёт, стейкхолдеры консультируют, СЕО и акционеры информируются</span>
+    <span class="swatch"><i class="gold"></i> Учётная политика с 01.01.2027</span>
+  </div>
+  <footer class="site">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 91 17" aria-hidden="true">
+      <path fill="#ffffff" d="M19.6188 8.49796C19.6188 13.3635 16.115 16.5209 9.35033 16.5209C2.58565 16.5209 0 16.3467 0 16.3467V13.4873C0 13.4873 4.45901 13.6683 8.60373 13.6683C12.7485 13.6683 15.2861 11.9249 15.5111 9.75414H2.59663V7.23905H15.5111C15.2833 5.06829 13.5129 3.32623 8.60373 3.32623C3.69457 3.32623 0 3.50725 0 3.50725V0.649187C0 0.649187 3.84691 0.474982 9.35033 0.474982C14.8538 0.474982 19.6188 3.63382 19.6188 8.49796ZM61.9019 10.2019C61.6878 10.0141 61.4654 9.82355 61.2252 9.63574C60.9837 9.44792 60.7339 9.271 60.4649 9.1104C60.1959 8.9498 59.9105 8.80282 59.603 8.67761C59.2984 8.55104 58.9731 8.4476 58.63 8.37683C58.9347 8.29245 59.2311 8.18221 59.5001 8.05564C59.7691 7.92907 60.0271 7.79025 60.2783 7.63646C60.5198 7.48267 60.7504 7.31527 60.9727 7.14106C61.195 6.96686 61.3982 6.79265 61.5931 6.60892L67.8294 0.788007H63.1027L57.4593 6.04956C57.2919 6.20335 57.1437 6.34353 57.0064 6.45513C56.8664 6.57353 56.7292 6.67152 56.581 6.7491C56.441 6.83212 56.2845 6.89609 56.1267 6.95189C55.9702 7.00088 55.7836 7.04307 55.5887 7.07029C55.3856 7.09751 55.1523 7.11929 54.8943 7.1329C54.6335 7.14651 54.3288 7.15331 53.9857 7.15331H51.2422V0.789368H47.0714V16.2065H51.2422V9.65071H53.9953C54.3384 9.65071 54.6431 9.65071 54.9039 9.67112C55.1619 9.68473 55.3952 9.70515 55.5901 9.73373C55.7932 9.76095 55.9702 9.80314 56.1281 9.85213C56.2845 9.90113 56.4437 9.97054 56.581 10.0549C56.7209 10.1393 56.8582 10.2359 56.9982 10.3489C57.1368 10.4673 57.2946 10.6007 57.4511 10.7545L63.2976 16.2052H68.3289L61.8881 10.2019H61.9019ZM39.3831 7.21864H26.6319V0.789368H22.4611V16.2065H26.6319V9.73509H39.3831V16.2065H43.5539V0.789368H39.3831V7.21864ZM90.7049 5.92162C90.5018 5.24386 90.1944 4.60147 89.7882 4.00809C89.3792 3.40789 88.8631 2.8635 88.2318 2.37491C87.6033 1.87951 86.8621 1.45897 86.0003 1.11056C85.1384 0.762149 84.1571 0.488592 83.0646 0.293972C81.9722 0.0979906 80.7137 0 79.3989 0C78.0841 0 76.8901 0.0993515 75.8073 0.293972C74.723 0.495397 73.7514 0.768954 72.8909 1.12417C72.029 1.48075 71.2796 1.90673 70.6414 2.40213C69.9937 2.89753 69.4639 3.44192 69.0398 4.03531C68.613 4.63005 68.2987 5.26563 68.0846 5.94204C67.8719 6.61845 67.769 7.76303 67.769 8.4966C67.769 9.23017 67.8623 10.387 68.0654 11.0716C68.2685 11.7561 68.5732 12.3917 68.9822 12.9919C69.3912 13.5921 69.9086 14.1365 70.5385 14.6251C71.1671 15.1137 71.9082 15.541 72.7701 15.8894C73.632 16.2379 74.6119 16.5114 75.7139 16.706C76.8146 16.902 78.0347 17 79.3852 17C80.6876 17 81.8816 16.9006 82.9631 16.706C84.0473 16.5046 85.019 16.231 85.8795 15.8758C86.7414 15.5193 87.4907 15.0933 88.1289 14.5979C88.7767 14.0957 89.3064 13.5499 89.7305 12.9579C90.1573 12.3631 90.4716 11.7276 90.6843 11.0512C90.8984 10.3748 91 9.23697 91 8.5034C91 7.76983 90.9067 6.60756 90.7036 5.92162H90.7049ZM86.5437 10.3584C86.4257 10.813 86.2487 11.2308 85.9948 11.6296C85.7505 12.0188 85.428 12.3822 85.0354 12.7116C84.6443 13.0409 84.1832 13.3199 83.6342 13.5567C83.0962 13.7881 82.469 13.9691 81.7636 14.1025C81.0691 14.2345 80.2745 14.2971 79.3934 14.2971C78.5123 14.2971 77.719 14.2358 77.0122 14.1025C76.3082 13.9759 75.6892 13.7949 75.1416 13.5567C74.594 13.3199 74.1343 13.0395 73.7418 12.7116C73.3506 12.3836 73.0377 12.0283 72.7824 11.6296C72.5272 11.2308 72.3405 10.813 72.2239 10.3584C72.1072 9.91202 72.0482 8.98383 72.0482 8.51021C72.0482 8.03659 72.1072 7.10976 72.2239 6.65519C72.3515 6.20062 72.5272 5.7828 72.7824 5.38404C73.035 4.9948 73.3492 4.63141 73.7418 4.30206C74.1329 3.9727 74.5927 3.6937 75.1416 3.45689C75.6796 3.22552 76.3068 3.04451 77.0122 2.91114C77.7163 2.77912 78.5219 2.71652 79.3934 2.71652C80.2649 2.71652 81.0595 2.77776 81.7636 2.91114C82.4676 3.03771 83.0852 3.21872 83.6342 3.45689C84.1722 3.6937 84.6443 3.97406 85.0354 4.30206C85.4266 4.63005 85.7395 4.98527 85.9948 5.38404C86.2404 5.7828 86.4271 6.20062 86.5437 6.65519C86.6604 7.10159 86.7194 8.03523 86.7194 8.51021C86.7194 8.98519 86.6631 9.90521 86.5437 10.3584Z"/>
+    </svg>
+    <p>Мы меняем мир к лучшему, задавая правила и стандарты. Источник: пространство OVKS, страница «Управленческие отчеты» и этапы 1–4. Цифры, маппинг счетов и суммы сюда не выносились.</p>
+  </footer>
+  <script>
+    const NAVY = "#122A4B";
+    const GRAY = "#758795";
+    const GOLD = "#CFC393";
+    const TEXT = "#292929";
+    const MUTED = "#797979";
+    const WHITE = "#FFFFFF";
+    const LINE = "#E6E6E6";
+
+    const STAGES = [
+      {
+        id: 0,
+        short: "Подготовка",
+        title: "Подготовка",
+        period: "сентябрь 2026",
+        owners: "Финдир + ИТ-дир",
+        goal: "Зафиксировать цели, стейкхолдеров, текущее состояние и сроки. Не создавать контур с нуля — унифицировать то, что есть.",
+        fundamental: [
+          "Цели программы и стейкхолдеры",
+          "Аудит ИТ-ландшафта и эскроу",
+          "Дорожная карта: паллиатив + фундаментал",
+          "Оценка бюджета и сроков фундаментала"
+        ],
+        palliative: ["Показ карты паллиатив + фундаментал Артёму Яковлеву"],
+        calendar: [
+          "до 19.09.2026 — согласовать сроки со всеми участниками (Эльвира)",
+          "19–22.09.2026 — показать дорожную карту Артёму Яковлеву (Эльвира)",
+          "до 30.09.2026 — архитектура и дорожная карта; оценка бюджета и сроков фундаментала (Эльвира, Павел)"
+        ],
+        gate: [
+          "Аудит ИТ-ландшафта",
+          "Оценка MacroCRM / MacroERP",
+          "Аудит эскроу",
+          "Согласованные сроки",
+          "Карта показана Артёму",
+          "Оценены бюджет и сроки фундаментала"
+        ],
+        deliverables: ["Цели, стейкхолдеры, аудит, сроки"],
+        notes: [
+          "Аудит в тексте помечен выполненным: расхождения бухгалтерии и CRM с 2012 года; качество MacroCRM и MacroERP; процесс эскроу; вычистка приходной части.",
+          "Проблематика: данные в бухгалтерии и CRM разные; бухгалтерия не идёт вместе с 1С CRM; допсоглашения и расторжения с 2012 учтены неполно; с 01.01.2027 меняется учётная политика, а конструкция управленки — по-старому; методология (МСФО, УУ по проектам, бюджетирование, юнит-экономика) не готова совместно с Инстеп.",
+          "Этап описан только на родительской странице."
+        ]
+      },
+      {
+        id: 1,
+        short: "Методология",
+        title: "Методология и архитектура",
+        period: "сентябрь–октябрь 2026",
+        owners: "Финдир (методология) + ИТ-дир (архитектура)",
+        goal: "Утверждённый чертёж контура до интеграций, миграций и закупки лицензий.",
+        fundamental: [
+          "Управленческий план счетов: 4 уровня; признаки потока и функциональный блок",
+          "Разрезы: проект, ЦФО, статья, контрагент/договор, период, направление, тип недвижимости, источник финансирования",
+          "Классификатор по 7 блокам: доходы; инвестиционная часть; маркетинг; ОХР; ВГО; финансовые потоки; эскроу",
+          "Юнит-экономика проекта и KPI: NPV, IRR, ROI, маржа, себестоимость кв. м, срок окупаемости. Выручка по эскроу — в момент раскрытия",
+          "Учётная политика УО без временного упрощения: выручка, капитализация, НЗП, элиминация ВГО, статусы эскроу",
+          "MDM: 1С:МДМ — мастер, остальные подписчики. Владельцы справочников назначены",
+          "Архитектура: Datareon (1С) и Kafka (не-1С) → DWH PostgreSQL → Power BI; Bank API",
+          "Целевой процесс эскроу: банк → API → бухгалтерия + CRM 4DEV + DWH, сверка всех трёх"
+        ],
+        palliative: [
+          "Временно: 2 уровня и 4 блока, структуру 4×7 проектировать сразу",
+          "Временно: 4 KPI без аллокации ОХР",
+          "Временно: 4–5 ключевых форм (P&L, БДДС, себестоимость, продажи, эскроу)",
+          "Наполнение MDM можно вести в Excel-реестре; правила и структура — сразу",
+          "ETL временно — скрипты и cron с планом перехода"
+        ],
+        calendar: [
+          "Логику под новую учётную политику 01.01.2027 готовить в октябре–ноябре 2026, согласовать с финдиром и коммерческой службой",
+          "Приоритеты дальше: миграции MacroCRM/ERP → 4DEV; интеграции Бухгалтерия → CRM 4DEV → УСО → БитФинанс → ЗУП; отчёты P&L → БДДС → себестоимость → продажи → эскроу → платёжный календарь"
+        ],
+        gate: [
+          "Методология утверждена приказом",
+          "Стейкхолдеры подписали макеты",
+          "Архитектура согласована ИТ и бизнесом",
+          "MDM-модель утверждена, 1С:МДМ развёрнута и передана администратору данных",
+          "Схемы ESB утверждены",
+          "Процесс эскроу утверждён",
+          "Логика к 01.01.2027 готова",
+          "Владельцы данных назначены",
+          "Бюджет и план 2–6 утверждены",
+          "Защита концепции перед СЕО"
+        ],
+        deliverables: [
+          "Концепция УО; учётная политика УО (эскроу и ВГО); альбом форм",
+          "Карта и модель MDM; архитектурная схема источники → ESB → МДМ → DWH → BI",
+          "ТЗ на Datareon, Kafka, банки, DWH, Power BI, эскроу",
+          "Логика УО к 01.01.2027; реестры рисков и техдолга; план-график этапов 2–6"
+        ],
+        notes: [
+          "Нельзя делать временным: методология учёта, архитектура слоёв и безопасности, процесс эскроу.",
+          "BI утверждён: Power BI. Чек-лист родителя: MDM-коробка, 4–5 человек.",
+          "RACI: методология УО — финдир A/R; архитектура — ИТ-дир A/R; MDM — MDM-менеджер A/R; эскроу — финдир A; контроль CRM — Романовская A/R."
+        ]
+      },
+      {
+        id: 2,
+        short: "Консолидация",
+        title: "Консолидация и миграция",
+        period: "октябрь–декабрь 2026",
+        owners: "ИТ-дир (миграция) + Финдир (сверка)",
+        goal: "Мигрировать выводимые системы, вычистить расхождения с 2012 года, запустить паллиатив, подготовить данные к фундаментальной интеграции.",
+        fundamental: [
+          "Вычистка приходной части, допсоглашений и расторжений; данные с 2019 — к единому виду",
+          "Миграция всех сделок MacroCRM → 1С:CRM 4DEV, включая незавершённые",
+          "Миграция ремонтов и страхования MacroERP → 4DEV, вывод MacroERP",
+          "Сверка 4DEV с бухгалтерией, затем регулярная сверка",
+          "Типы недвижимости: группы номенклатур + атрибут в договорах",
+          "Инвентаризация эскроу: банк ↔ бухгалтерия ↔ 4DEV"
+        ],
+        palliative: [
+          "Паллиативный обмен 4DEV ↔ бухгалтерия (ДДУ/ДКП, платежи, закрывающие, эскроу)",
+          "Фикс косяков Macro со сроком замены",
+          "Минимальный набор отчётов на текущих данных: упрощённые P&L, БДДС, продажи, остатки эскроу, ежедневное обновление",
+          "Реестр техдолга паллиатива"
+        ],
+        calendar: [
+          "Подготовка к миграции — октябрь 2026, ИТ-дир",
+          "Вычистка — октябрь 2026, Финдир + Романовская",
+          "Миграция MacroCRM и MacroERP — октябрь 2026, ИТ-дир",
+          "Паллиатив — до 30.09.2026 + ноябрь 2026, ИТ-дир",
+          "Сверка с бухгалтерией — ноябрь 2026",
+          "Типы недвижимости — ноябрь 2026",
+          "Инвентаризация эскроу — ноябрь 2026",
+          "Регламенты, документы, Gate — декабрь 2026"
+        ],
+        gate: [
+          "Вычистка закрыта; Романовская контролирует CRM",
+          "Сделки и MacroERP перенесены; MacroCRM и MacroERP выведены",
+          "Сверка с бухгалтерией есть",
+          "Паллиативный обмен и паллиативная управленка у бизнеса",
+          "Типы недвижимости ведутся; эскроу проинвентаризированы",
+          "Требования ушли в этап 3; техдолг обновлён; итоговый отчёт утверждён"
+        ],
+        deliverables: [
+          "Акты инвентаризации MacroCRM, MacroERP, старых 1С",
+          "Акты вычистки, миграции и сверки",
+          "Регламент паллиативного обмена; реестр техдолга",
+          "Акт учёта по типам; акт инвентаризации эскроу; требования к интеграции эскроу"
+        ],
+        notes: [
+          "Временного упрощения нет для: миграции данных, сверки с бухгалтерией, вычистки приходной части, инвентаризации эскроу.",
+          "Открытый пункт: даты паллиативного обмена расходятся. Родитель — 01.11.2026; этап 2 — «2 недели до 30.09.2026» и сводка «до 30.09 + ноябрь». Нужно одно число на Gate, не снаружи."
+        ]
+      },
+      {
+        id: 3,
+        short: "Интеграции",
+        title: "Интеграции",
+        period: "2027, 4–8 месяцев",
+        owners: "ИТ-дир (техника) + Финдир (приёмка данных)",
+        goal: "Автоматический сбор в DWH с качеством, полнотой и историей; замена паллиатива на фундаментальные интеграции.",
+        fundamental: [
+          "Три среды PostgreSQL; слои stg_ / dwh_ / dm_; бэкап, мониторинг, роли",
+          "Datareon: Бухгалтерия, БитФинанс, УСО, CRM 4DEV, МДМ, ЗУП, ДО → DWH",
+          "Kafka: АСТ Альфа, СУП, Битрикс 24 → DWH. Миграционные потоки Macro отключаются",
+          "Банки: расчётные счета и эскроу через 1С:ДиректБанк / SberAPI; автосверка",
+          "Фундаментальный обмен CRM → бухгалтерия: договоры, платежи, закрывающие, эскроу",
+          "Валидация на входе, SCD Type 2 для критичных атрибутов",
+          "Power BI подключается к DWH уже на этом этапе"
+        ],
+        palliative: [
+          "Временный способ загрузки допустим, только если данные попадают в DWH полностью и в целевой структуре",
+          "Временно — один сервер, схема слоёв сразу",
+          "Паллиативный обмен CRM ↔ бухгалтерия отключается — это не временное",
+          "Интеграция эскроу — не временная"
+        ],
+        calendar: [
+          "Месяц 1 — DWH и команда",
+          "1–3 — Datareon; 2–4 — Kafka",
+          "2–5 — банки и эскроу; 3–5 — CRM → бухгалтерия",
+          "4–6 — качество и историзация; 5–6 — регламенты",
+          "6–7 — тесты; 8 — документы и Gate"
+        ],
+        gate: [
+          "DWH развёрнут, ETL и Power BI работают, бэкап и мониторинг есть",
+          "Все 1С и не-1С потоки живы",
+          "Банки и эскроу автоматизированы",
+          "Фундаментальный обмен CRM ↔ бухгалтерия включён, паллиатив выключен",
+          "Валидация и историзация работают; регламенты утверждены; тесты пройдены"
+        ],
+        deliverables: [
+          "Схемы Datareon, Kafka, банков; модель DWH; ТЗ на ETL и BI",
+          "Регламенты загрузки и сбоев; документация интеграций",
+          "Акты сверки 1С ↔ DWH и эскроу; акт отключения паллиатива"
+        ],
+        notes: [
+          "RACI укрупнённо: пайплайны — ИТ A/R; правила маппинга — бизнес A; качество и приёмка данных — бизнес A, ИТ R.",
+          "В долг этапа могут уйти: ежедневная загрузка вместо real-time, Python вместо Airflow/dbt, минимальная валидация — закрытие на этапе 4."
+        ]
+      },
+      {
+        id: 4,
+        short: "Отчётность",
+        title: "Отчётность и дашборды",
+        period: "2027, 2–4 месяца",
+        owners: "Финдир (методология) + ИТ-дир (техника)",
+        goal: "Отчёты на данных DWH в Power BI; заменить паллиативные отчёты. Нельзя упрощать модель витрин и формулы расчёта.",
+        fundamental: [
+          "Волна 1: P&L по проектам, БДДС, себестоимость, продажи, эскроу, платёжный календарь",
+          "Волна 2: БДР, управленческий баланс, освоение СМР, ВГО и элиминация",
+          "Волна 3: стратегический дашборд СЕО, сценарное моделирование, прогнозы",
+          "Уровни: СЕО/акционеры — стратегия; финдир — БДДС, БДР, календарь, ВГО; РП — себестоимость, СМР, бюджет проекта",
+          "Витрины dm_pl_project, dm_pl_consolidated, dm_cashflow, dm_bdr, dm_balance, dm_project_cost, dm_sales, dm_sales_by_type, dm_construction, dm_payment_calendar, dm_vgo, dm_eskrow, dm_kpi, dm_marketing, dm_ohr, dm_investment"
+        ],
+        palliative: [
+          "Сверка паллиатив vs фундаментал и отказ от паллиативных отчётов"
+        ],
+        calendar: [
+          "Месяц 1 — требования и витрины",
+          "1–2 — витрины; 2–3 — Power BI",
+          "3 — замена паллиатива, обучение, приёмка",
+          "4 — пилот, масштаб, регламенты, Gate"
+        ],
+        gate: [
+          "Все перечисленные витрины и отчёты работают и приняты владельцами",
+          "Паллиатив заменён; пользователи обучены",
+          "Пилот и масштаб пройдены; регламенты утверждены"
+        ],
+        deliverables: [
+          "ТЗ и модель витрин; ТЗ и альбом отчётов Power BI",
+          "Руководства, видео, FAQ; акты сверки и приёмки; регламенты",
+          "Передаётся в этап 5"
+        ],
+        notes: [
+          "Результат программы (этапы 4–5): отчёты и дашборды, принятые бизнесом; пилот на 1–2 проектах; обученные пользователи; утверждённые регламенты, включая работу с эскроу.",
+          "В этапы 5–6 уходят: drill-down, self-service, авторассылки, мобильный Power BI, расширенные KPI и сценарии."
+        ]
+      },
+      {
+        id: 5,
+        short: "Внедрение",
+        title: "Внедрение и обучение",
+        period: "2027, 1–2 месяца",
+        owners: "Финдир + ИТ-дир",
+        goal: "Пилот 1–2 проекта, регламенты, обученные пользователи.",
+        fundamental: [
+          "Пилот 1–2 проекта",
+          "Обучение финдиров, финансового департамента, РП, аналитиков",
+          "Приказ и регламенты обновления данных и работы с эскроу",
+          "Итерации по результатам пилота"
+        ],
+        palliative: [],
+        calendar: ["2027, 1–2 месяца после отчётности"],
+        gate: [
+          "Пилот проведён",
+          "Пользователи обучены",
+          "Регламенты (включая эскроу) утверждены"
+        ],
+        deliverables: ["Пилот, обучение, регламенты включая эскроу"],
+        notes: [
+          "Этап описан только на родительской странице — отдельных дочерних страниц нет.",
+          "Пилотные 1–2 проекта в тексте не названы."
+        ]
+      },
+      {
+        id: 6,
+        short: "Сопровождение",
+        title: "Сопровождение",
+        period: "постоянно",
+        owners: "ИТ-дир (техника) + Финдир (методология)",
+        goal: "Качество, развитие, прогнозы.",
+        fundamental: [
+          "Мониторинг качества",
+          "Новые разрезы и автоматизация прогнозирования",
+          "Интеграция с планированием в 1С:БитФинанс",
+          "Развитие AI/ML (прогноз продаж, оптимизация затрат) как развитие, не как старт",
+          "Новые банки эскроу, автосверка, прогноз раскрытия"
+        ],
+        palliative: [],
+        calendar: ["Постоянно после внедрения"],
+        gate: ["Качество поддерживается; развитие идёт по утверждённым регламентам"],
+        deliverables: ["Мониторинг, развитие, прогнозы"],
+        notes: ["Этап описан только на родительской странице."]
+      }
+    ];
+
+    const SYSTEMS = [
+      { n: 1, name: "1С:Бухгалтерия", role: "Проводки, остатки, первичка, эскроу", action: "Интеграция через ESB, сверка проводок", gold: true },
+      { n: 2, name: "1С:ЗУП", role: "ФОТ, распределение по проектам", action: "ESB", gold: true },
+      { n: 3, name: "1С:Документооборот", role: "Вспомогательная", action: "По необходимости", gold: false },
+      { n: 4, name: "1С:БитФинанс", role: "Платежи, БДДС, лимиты", action: "ESB", gold: true },
+      { n: 5, name: "1С:УСО", role: "Объёмы СМР, освоение бюджета", action: "ESB", gold: true },
+      { n: 6, name: "ESB Datareon", role: "Транспорт 1С → DWH", action: "Настройка потоков", gold: false },
+      { n: 7, name: "ESB Kafka", role: "CRM, тендеры, СУП → DWH", action: "Настройка потоков", gold: false },
+      { n: 8, name: "АСТ Альфа", role: "Тендеры, подрядчики, договоры", action: "Kafka", gold: false },
+      { n: 9, name: "СУП", role: "Графики, вехи, ресурсы", action: "Kafka", gold: false },
+      { n: 10, name: "MacroCRM", role: "Лиды, брони, сделки до миграции", action: "Миграция в 1С:CRM 4DEV", gold: false },
+      { n: 11, name: "1С:CRM 4DEV", role: "Целевой источник: сделки, страховки, доп. услуги, эскроу", action: "Приём из MacroCRM/MacroERP, сверка с бухгалтерией", gold: true },
+      { n: 12, name: "Битрикс 24", role: "Портал и КЭДО", action: "По необходимости", gold: false },
+      { n: 13, name: "DWH PostgreSQL", role: "Целевая платформа УО. Слои stg_ → dwh_ → dm_", action: "Наполнение из ESB, витрины", gold: false },
+      { n: 14, name: "Power BI", role: "Целевой инструмент отчётности", action: "Подключение к DWH", gold: false },
+      { n: 15, name: "MacroERP", role: "Ремонты и страхование. Выводится из эксплуатации", action: "Миграция в 1С:CRM 4DEV", gold: false },
+      { n: 16, name: "Банки (Сбер и др.)", role: "Выписки, остатки, раскрытие эскроу", action: "API, оптимизация выгрузки эскроу", gold: true }
+    ];
+
+    const DEBT = [
+      ["MacroCRM как источник продаж", "1С:CRM 4DEV", "этап 2", "ИТ-дир"],
+      ["MacroERP для ремонтов/страхования", "1С:CRM 4DEV", "этап 2", "ИТ-дир"],
+      ["Ручная сверка сделок", "Автосверка через ESB", "этап 3", "ИТ-дир / комблок"],
+      ["Часть данных в Excel", "DWH PostgreSQL", "этап 3", "ИТ-дир"],
+      ["Нет MDM", "1С:МДМ", "этап 1", "ИТ"],
+      ["Разрозненные интеграции", "Единые ESB", "этап 3", "ИТ-дир"],
+      ["Учёт типов недвижимости «на лету»", "Группы номенклатур + атрибут", "этап 2", "Финдир"],
+      ["Ручная выгрузка эскроу", "API банков", "этап 3", "ИТ-дир"],
+      ["Паллиативный обмен CRM ↔ бухгалтерия", "Фундаментальная интеграция", "этап 3", "ИТ-дир"],
+      ["Косяки Macro", "Полная миграция", "этап 2", "ИТ-дир"],
+      ["Разрозненный учёт эскроу", "Единая аналитика + автосверка", "этап 3", "Финдир / ИТ"],
+      ["Управленка по старой конструкции", "Логика под новую учётную политику", "01.01.2027", "Финдир"]
+    ];
+
+    const state = {
+      view: "map",
+      selected: null,
+      tracks: { fundamental: true, palliative: true }
+    };
+
+    const svg = document.getElementById("roadmap");
+    const panel = document.getElementById("panel");
+    const panelH = document.getElementById("panel-h");
+    const panelBody = document.getElementById("panel-body");
+    const chips = document.getElementById("stage-chips");
+    const stageArea = document.getElementById("stage-area");
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+
+    function list(items) {
+      if (!items || !items.length) return '<p class="empty">Нет отдельного паллиатива на этом этапе.</p>';
+      return "<ul>" + items.map((x) => "<li>" + esc(x) + "</li>").join("") + "</ul>";
+    }
+
+    STAGES.forEach((s) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "stage-chip";
+      b.textContent = s.id + " · " + s.short;
+      b.dataset.stage = String(s.id);
+      b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", () => openStage(s.id));
+      chips.appendChild(b);
+    });
+
+    document.querySelectorAll("nav button").forEach((btn) => {
+      btn.addEventListener("click", () => setView(btn.dataset.view));
+    });
+    document.querySelectorAll(".track-chip").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const t = btn.dataset.track;
+        state.tracks[t] = !state.tracks[t];
+        btn.setAttribute("aria-pressed", String(state.tracks[t]));
+        draw();
+      });
+    });
+    document.querySelector(".close").addEventListener("click", closePanel);
+
+    function setView(name) {
+      state.view = name;
+      stageArea.dataset.view = name;
+      document.querySelectorAll("nav button").forEach((b) => {
+        b.setAttribute("aria-current", b.dataset.view === name ? "page" : "false");
+      });
+      document.getElementById("map-toolbar").style.display = name === "map" ? "flex" : "none";
+      ["principles", "systems", "debt", "risks"].forEach((id) => {
+        const el = document.getElementById("view-" + id);
+        const on = name === id;
+        el.hidden = !on;
+        el.classList.toggle("active", on);
+      });
+      if (name !== "map") closePanel();
+    }
+
+    function openStage(id) {
+      const s = STAGES[id];
+      if (!s) return;
+      state.selected = id;
+      document.querySelectorAll(".stage-chip").forEach((c) => {
+        c.setAttribute("aria-pressed", c.dataset.stage === String(id) ? "true" : "false");
+      });
+      panelH.innerHTML = '<p class="num">Этап ' + s.id + ' · Gate ' + s.id + '</p><h2>' + esc(s.title) + '</h2><p class="when">' + esc(s.period) + ' · A: ' + esc(s.owners) + '</p>';
+      panelBody.innerHTML =
+        "<div><h3>Цель</h3><p>" + esc(s.goal) + "</p></div>" +
+        '<div class="tracks"><article class="f"><h3>Фундаментал</h3>' + list(s.fundamental) + "</article>" +
+        '<article class="p"><h3>Паллиатив</h3>' + list(s.palliative) + "</article></div>" +
+        "<div><h3>Календарь</h3>" + list(s.calendar) + "</div>" +
+        "<div><h3>Gate</h3>" + list(s.gate) + "</div>" +
+        "<div><h3>Deliverables</h3>" + list(s.deliverables) + "</div>" +
+        (s.notes && s.notes.length ? '<div class="callout">' + s.notes.map(esc).join("<br><br>") + "</div>" : "");
+      panel.classList.add("open");
+      panel.setAttribute("aria-hidden", "false");
+      history.replaceState(null, "", "#e" + id);
+      draw();
+    }
+
+    function closePanel() {
+      state.selected = null;
+      panel.classList.remove("open");
+      panel.setAttribute("aria-hidden", "true");
+      document.querySelectorAll(".stage-chip").forEach((c) => c.setAttribute("aria-pressed", "false"));
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      draw();
+    }
+
+    function isMobile() {
+      return window.matchMedia("(max-width: 900px)").matches;
+    }
+
+    function draw() {
+      if (isMobile()) drawVertical();
+      else drawHorizontal();
+    }
+
+    function nodeColor(id) {
+      return state.selected === id ? GOLD : NAVY;
+    }
+
+    function drawHorizontal() {
+      const W = 1440, H = 520;
+      svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+      svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+      const xs = [110, 300, 510, 760, 980, 1160, 1330];
+      const yF = 118, yS = 248, yP = 378;
+      const pallFrom = 2, pallTo = 4;
+      let g = "";
+      g += `<text x="40" y="36" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2026.09</text>`;
+      g += `<text x="500" y="36" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2026.12</text>`;
+      g += `<text x="780" y="36" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">2027</text>`;
+      g += `<text x="1280" y="36" fill="${MUTED}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">постоянно →</text>`;
+      g += `<line x1="40" y1="48" x2="1400" y2="48" stroke="${LINE}" />`;
+
+      const policyX = (xs[2] + xs[3]) / 2;
+      g += `<line x1="${policyX}" y1="58" x2="${policyX}" y2="470" stroke="${GOLD}" stroke-width="2" stroke-dasharray="4 6" />`;
+      g += `<text x="${policyX + 8}" y="74" fill="${NAVY}" font-size="11" font-weight="600" font-family="Montserrat, Arial, sans-serif">Учётная политика 01.01.2027</text>`;
+
+      if (state.tracks.fundamental) {
+        g += `<text x="40" y="${yF - 48}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ФУНДАМЕНТАЛ</text>`;
+        g += `<path d="M${xs[0]} ${yF} L${xs[6]} ${yF}" fill="none" stroke="${NAVY}" stroke-width="6" />`;
+      }
+      g += `<path d="M${xs[0]} ${yS} L${xs[6]} ${yS}" fill="none" stroke="${NAVY}" stroke-width="3" />`;
+      if (state.tracks.palliative) {
+        g += `<text x="40" y="${yP - 48}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ПАЛЛИАТИВ</text>`;
+        g += `<path d="M${xs[pallFrom]} ${yP} L${xs[pallTo]} ${yP}" fill="none" stroke="${GOLD}" stroke-width="6" stroke-dasharray="10 8" />`;
+        g += `<text x="${(xs[2] + xs[3]) / 2}" y="${yP + 36}" text-anchor="middle" fill="${MUTED}" font-size="11" font-family="Montserrat, Arial, sans-serif">обмен и минимальные отчёты → замена на интеграции → отказ от паллиативных отчётов</text>`;
+      }
+
+      for (let i = 0; i < 6; i++) {
+        const gx = (xs[i] + xs[i + 1]) / 2;
+        g += `<polygon data-gate="${i}" points="${gx},${yS - 11} ${gx + 11},${yS} ${gx},${yS + 11} ${gx - 11},${yS}" fill="${GOLD}" stroke="${NAVY}" stroke-width="1" style="cursor:pointer" />`;
+        g += `<text x="${gx}" y="${yS - 18}" text-anchor="middle" fill="${MUTED}" font-size="10" font-weight="600" font-family="Montserrat, Arial, sans-serif">GATE ${i}</text>`;
+      }
+
+      STAGES.forEach((s, i) => {
+        const x = xs[i];
+        const on = state.selected === s.id;
+        const fill = on ? GOLD : WHITE;
+        const stroke = nodeColor(s.id);
+        if (state.tracks.fundamental) {
+          g += `<circle cx="${x}" cy="${yF}" r="7" fill="${NAVY}" />`;
+        }
+        if (state.tracks.palliative && i >= pallFrom && i <= pallTo) {
+          g += `<circle cx="${x}" cy="${yP}" r="7" fill="${GOLD}" />`;
+        }
+        g += `<g data-stage="${s.id}" style="cursor:pointer">`;
+        g += `<circle cx="${x}" cy="${yS}" r="${on ? 28 : 24}" fill="${fill}" stroke="${stroke}" stroke-width="3" />`;
+        g += `<text x="${x}" y="${yS + 5}" text-anchor="middle" fill="${on ? NAVY : NAVY}" font-size="16" font-weight="700" font-family="Montserrat, Arial, sans-serif">${s.id}</text>`;
+        g += `<text x="${x}" y="${yS + 48}" text-anchor="middle" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">${esc(s.short)}</text>`;
+        g += `<text x="${x}" y="${yS + 66}" text-anchor="middle" fill="${MUTED}" font-size="11" font-family="Montserrat, Arial, sans-serif">${esc(s.period)}</text>`;
+        g += `</g>`;
+      });
+      svg.innerHTML = g;
+      bindMap();
+    }
+
+    function drawVertical() {
+      const W = 360, H = 1180;
+      svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+      svg.setAttribute("preserveAspectRatio", "xMidYMin meet");
+      const xS = 180, xF = 70, xP = 290;
+      const ys = [90, 250, 410, 570, 730, 890, 1050];
+      let g = "";
+      g += `<text x="24" y="32" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">Этапы 0–6</text>`;
+      if (state.tracks.fundamental) {
+        g += `<text x="${xF}" y="54" text-anchor="middle" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ФУНД.</text>`;
+        g += `<path d="M${xF} ${ys[0]} L${xF} ${ys[6]}" stroke="${NAVY}" stroke-width="5" />`;
+      }
+      g += `<path d="M${xS} ${ys[0]} L${xS} ${ys[6]}" stroke="${NAVY}" stroke-width="3" />`;
+      if (state.tracks.palliative) {
+        g += `<text x="${xP}" y="54" text-anchor="middle" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ПАЛЛ.</text>`;
+        g += `<path d="M${xP} ${ys[2]} L${xP} ${ys[4]}" stroke="${GOLD}" stroke-width="5" stroke-dasharray="8 6" />`;
+      }
+      const policyY = (ys[2] + ys[3]) / 2;
+      g += `<line x1="24" y1="${policyY}" x2="336" y2="${policyY}" stroke="${GOLD}" stroke-width="2" stroke-dasharray="4 6" />`;
+      g += `<text x="28" y="${policyY - 8}" fill="${NAVY}" font-size="10" font-weight="600" font-family="Montserrat, Arial, sans-serif">Учётная политика 01.01.2027</text>`;
+
+      for (let i = 0; i < 6; i++) {
+        const gy = (ys[i] + ys[i + 1]) / 2;
+        g += `<polygon data-gate="${i}" points="${xS},${gy - 9} ${xS + 9},${gy} ${xS},${gy + 9} ${xS - 9},${gy}" fill="${GOLD}" stroke="${NAVY}" stroke-width="1" style="cursor:pointer" />`;
+      }
+      STAGES.forEach((s, i) => {
+        const y = ys[i];
+        const on = state.selected === s.id;
+        if (state.tracks.fundamental) g += `<circle cx="${xF}" cy="${y}" r="6" fill="${NAVY}" />`;
+        if (state.tracks.palliative && i >= 2 && i <= 4) g += `<circle cx="${xP}" cy="${y}" r="6" fill="${GOLD}" />`;
+        g += `<g data-stage="${s.id}" style="cursor:pointer">`;
+        g += `<circle cx="${xS}" cy="${y}" r="${on ? 26 : 22}" fill="${on ? GOLD : WHITE}" stroke="${nodeColor(s.id)}" stroke-width="3" />`;
+        g += `<text x="${xS}" y="${y + 5}" text-anchor="middle" fill="${NAVY}" font-size="15" font-weight="700" font-family="Montserrat, Arial, sans-serif">${s.id}</text>`;
+        g += `<text x="${xS}" y="${y + 42}" text-anchor="middle" fill="${NAVY}" font-size="12" font-weight="600" font-family="Montserrat, Arial, sans-serif">${esc(s.short)}</text>`;
+        g += `<text x="${xS}" y="${y + 58}" text-anchor="middle" fill="${MUTED}" font-size="10" font-family="Montserrat, Arial, sans-serif">${esc(s.period)}</text>`;
+        g += `</g>`;
+      });
+      svg.innerHTML = g;
+      bindMap();
+    }
+
+    function bindMap() {
+      svg.querySelectorAll("[data-stage]").forEach((n) => {
+        n.addEventListener("click", () => openStage(Number(n.getAttribute("data-stage"))));
+      });
+      svg.querySelectorAll("[data-gate]").forEach((n) => {
+        n.addEventListener("click", () => openStage(Number(n.getAttribute("data-gate"))));
+      });
+    }
+
+    function drawGrid() {
+      const c = document.getElementById("grid");
+      const area = document.querySelector(".stage-area");
+      const dpr = window.devicePixelRatio || 1;
+      const w = area.clientWidth;
+      const h = area.clientHeight;
+      if (!w || !h) return;
+      c.width = w * dpr;
+      c.height = h * dpr;
+      c.style.width = w + "px";
+      c.style.height = h + "px";
+      const ctx = c.getContext("2d");
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#F9F9F9";
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = "rgba(18,42,75,0.06)";
+      ctx.lineWidth = 1;
+      const step = 32;
+      for (let x = 0; x <= w; x += step) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y <= h; y += step) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+    }
+
+    document.getElementById("view-principles").innerHTML = `
+      <p class="lead"><strong>Цель.</strong> Собрать контур управленческих отчетов (УО) на уже существующих системах: единая методология, мастер-данные, интеграции, хранилище и отчёты для решений. Сначала логичная конструкция данных, потом алгоритмы управленки.</p>
+      <div class="cards">
+        <article class="card"><p class="meta">01</p><h3>Консолидация, не greenfield</h3><p>Используем текущие системы, унифицируем и интегрируем.</p></article>
+        <article class="card"><p class="meta">02</p><h3>MDM как фундамент</h3><p>1С:МДМ — единый источник мастер-данных.</p></article>
+        <article class="card"><p class="meta">03</p><h3>Две ESB</h3><p>Datareon для 1С, Kafka для не-1С.</p></article>
+        <article class="card"><p class="meta">04</p><h3>Целевая аналитика</h3><p>DWH на PostgreSQL + Power BI.</p></article>
+        <article class="card"><p class="meta">05</p><h3>Эскроу — критический поток</h3><p>Ошибка = искажение выручки; временные упрощения нельзя.</p></article>
+        <article class="card"><p class="meta">06</p><h3>Два трека</h3><p>Паллиатив (управленка быстро, на текущих данных) и фундаментал (целевой контур). Паллиатив не должен противоречить фундаменталу.</p></article>
+        <article class="card"><p class="meta">07</p><h3>Временное ↔ фундаментальное</h3><p>Временное допустимо, только если данные перекладываются без потерь, есть срок замены, ответственный и запись в реестре техдолга.</p></article>
+        <article class="card"><p class="meta">08</p><h3>Учётная политика с 01.01.2027</h3><p>Логику управленки готовить заранее, с возможностью строить УО от определённой даты.</p></article>
+      </div>
+      <p class="lead">Что нельзя делать временным: методология учёта (план счетов, аналитики, классификаторы), архитектура слоёв и безопасности, процесс эскроу. Что можно (с планом замены): технологии (СУБД, ETL, BI), упрощённые формы, ручные выгрузки, базовые регламенты.</p>
+    `;
+
+    document.getElementById("view-systems").innerHTML =
+      '<p class="lead"><strong>Золотые источники</strong> (этап 1): проекты — 1С:МДМ; продажи — 1С:CRM 4DEV; бухучёт — 1С:Бухгалтерия; СМР — 1С:УСО; ФОТ — 1С:ЗУП; платежи — 1С:БитФинанс; эскроу — банк (первично) + бухгалтерия (учётно). Золотая кромка — эти источники.</p><div class="sys-grid">' +
+      SYSTEMS.map((s) => `<button class="sys${s.gold ? " gold-src" : ""}" type="button"><span class="k">${String(s.n).padStart(2, "0")}${s.gold ? " · золотой источник" : ""}</span><strong>${esc(s.name)}</strong><span>${esc(s.role)}. ${esc(s.action)}</span></button>`).join("") +
+      "</div>";
+
+    document.getElementById("view-debt").innerHTML =
+      '<p class="lead">Сводка с родителя. «Срок замены» — целевой этап закрытия, не отметка что уже сделано.</p><div class="table-wrap"><table><thead><tr><th>№</th><th>Временное</th><th>Фундаментальное</th><th>Замена</th><th>Кто</th></tr></thead><tbody>' +
+      DEBT.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("") +
+      "</tbody></table></div>";
+
+    document.getElementById("view-risks").innerHTML = `
+      <div class="cards">
+        <article class="card"><h3>Риски родителя</h3><ul>
+          <li>Потеря данных при миграции; незавершённые сделки MacroCRM</li>
+          <li>Расхождения CRM и бухгалтерии; данные с 2012</li>
+          <li>Сложность двух ESB; ошибки и задержки эскроу; разные форматы банков</li>
+          <li>Сопротивление бизнеса (вовлекать с этапа 0); качество мастер-данных</li>
+          <li>Паллиатив, который станет фундаментом</li>
+          <li>Новая учётная политика 01.01.2027</li>
+        </ul></article>
+        <article class="card"><h3>Открытые пункты страниц</h3><ul>
+          <li>Методология УО не готова совместно с Инстеп</li>
+          <li>Даты паллиативного обмена: 01.11.2026 vs до 30.09.2026 + ноябрь — нужно одно число</li>
+          <li>Этапы 5–6 нет отдельных страниц</li>
+          <li>Выбор ETL и Data Catalog не зафиксирован</li>
+          <li>Пилотные 1–2 проекта этапа 5 не названы</li>
+          <li>Бюджет и численность MDM-коробки оценить до 30.09; в тексте сумм нет</li>
+          <li>Gate 0: сроки до 19.09 и показ Яковлеву 19–22.09 — статус исполнения на странице не отмечен</li>
+        </ul></article>
+        <article class="card"><h3>RACI · Gate любого этапа</h3><p>A — владелец этапа; R — команда; C — стейкхолдеры; I — СЕО, акционеры. На задачу ровно один A. Матрица по ролям, не по фамилиям.</p></article>
+      </div>
+    `;
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closePanel();
+      if (/^[0-6]$/.test(e.key) && state.view === "map") openStage(Number(e.key));
+    });
+    window.addEventListener("resize", () => { drawGrid(); draw(); });
+    window.addEventListener("hashchange", () => {
+      const m = location.hash.match(/^#e([0-6])$/);
+      if (m) openStage(Number(m[1]));
+    });
+
+    drawGrid();
+    draw();
+    const boot = location.hash.match(/^#e([0-6])$/);
+    if (boot) openStage(Number(boot[1]));
+  </script>
+</body>
+</html>
