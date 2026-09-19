@@ -34,6 +34,20 @@
       background: var(--bg);
     }
     button, a { font-family: inherit; }
+    a.wiki, .panel a, .lead a, .card a, td a, .legend-bar a, .brand-copy a {
+      color: var(--navy);
+      text-decoration: underline;
+      text-decoration-color: var(--gold);
+      text-underline-offset: 3px;
+    }
+    footer.site a {
+      color: #fff;
+      text-decoration: underline;
+      text-decoration-color: var(--gold);
+      text-underline-offset: 3px;
+    }
+    #roadmap a { cursor: pointer; }
+    a.sys { text-decoration: none; color: inherit; }
     .skip {
       position: absolute; left: -999px; top: 0;
     }
@@ -431,7 +445,7 @@
           <path fill="#122A4B" d="M19.6188 8.49796C19.6188 13.3635 16.115 16.5209 9.35033 16.5209C2.58565 16.5209 0 16.3467 0 16.3467V13.4873C0 13.4873 4.45901 13.6683 8.60373 13.6683C12.7485 13.6683 15.2861 11.9249 15.5111 9.75414H2.59663V7.23905H15.5111C15.2833 5.06829 13.5129 3.32623 8.60373 3.32623C3.69457 3.32623 0 3.50725 0 3.50725V0.649187C0 0.649187 3.84691 0.474982 9.35033 0.474982C14.8538 0.474982 19.6188 3.63382 19.6188 8.49796ZM61.9019 10.2019C61.6878 10.0141 61.4654 9.82355 61.2252 9.63574C60.9837 9.44792 60.7339 9.271 60.4649 9.1104C60.1959 8.9498 59.9105 8.80282 59.603 8.67761C59.2984 8.55104 58.9731 8.4476 58.63 8.37683C58.9347 8.29245 59.2311 8.18221 59.5001 8.05564C59.7691 7.92907 60.0271 7.79025 60.2783 7.63646C60.5198 7.48267 60.7504 7.31527 60.9727 7.14106C61.195 6.96686 61.3982 6.79265 61.5931 6.60892L67.8294 0.788007H63.1027L57.4593 6.04956C57.2919 6.20335 57.1437 6.34353 57.0064 6.45513C56.8664 6.57353 56.7292 6.67152 56.581 6.7491C56.441 6.83212 56.2845 6.89609 56.1267 6.95189C55.9702 7.00088 55.7836 7.04307 55.5887 7.07029C55.3856 7.09751 55.1523 7.11929 54.8943 7.1329C54.6335 7.14651 54.3288 7.15331 53.9857 7.15331H51.2422V0.789368H47.0714V16.2065H51.2422V9.65071H53.9953C54.3384 9.65071 54.6431 9.65071 54.9039 9.67112C55.1619 9.68473 55.3952 9.70515 55.5901 9.73373C55.7932 9.76095 55.9702 9.80314 56.1281 9.85213C56.2845 9.90113 56.4437 9.97054 56.581 10.0549C56.7209 10.1393 56.8582 10.2359 56.9982 10.3489C57.1368 10.4673 57.2946 10.6007 57.4511 10.7545L63.2976 16.2052H68.3289L61.8881 10.2019H61.9019ZM39.3831 7.21864H26.6319V0.789368H22.4611V16.2065H26.6319V9.73509H39.3831V16.2065H43.5539V0.789368H39.3831V7.21864ZM90.7049 5.92162C90.5018 5.24386 90.1944 4.60147 89.7882 4.00809C89.3792 3.40789 88.8631 2.8635 88.2318 2.37491C87.6033 1.87951 86.8621 1.45897 86.0003 1.11056C85.1384 0.762149 84.1571 0.488592 83.0646 0.293972C81.9722 0.0979906 80.7137 0 79.3989 0C78.0841 0 76.8901 0.0993515 75.8073 0.293972C74.723 0.495397 73.7514 0.768954 72.8909 1.12417C72.029 1.48075 71.2796 1.90673 70.6414 2.40213C69.9937 2.89753 69.4639 3.44192 69.0398 4.03531C68.613 4.63005 68.2987 5.26563 68.0846 5.94204C67.8719 6.61845 67.769 7.76303 67.769 8.4966C67.769 9.23017 67.8623 10.387 68.0654 11.0716C68.2685 11.7561 68.5732 12.3917 68.9822 12.9919C69.3912 13.5921 69.9086 14.1365 70.5385 14.6251C71.1671 15.1137 71.9082 15.541 72.7701 15.8894C73.632 16.2379 74.6119 16.5114 75.7139 16.706C76.8146 16.902 78.0347 17 79.3852 17C80.6876 17 81.8816 16.9006 82.9631 16.706C84.0473 16.5046 85.019 16.231 85.8795 15.8758C86.7414 15.5193 87.4907 15.0933 88.1289 14.5979C88.7767 14.0957 89.3064 13.5499 89.7305 12.9579C90.1573 12.3631 90.4716 11.7276 90.6843 11.0512C90.8984 10.3748 91 9.23697 91 8.5034C91 7.76983 90.9067 6.60756 90.7036 5.92162H90.7049ZM86.5437 10.3584C86.4257 10.813 86.2487 11.2308 85.9948 11.6296C85.7505 12.0188 85.428 12.3822 85.0354 12.7116C84.6443 13.0409 84.1832 13.3199 83.6342 13.5567C83.0962 13.7881 82.469 13.9691 81.7636 14.1025C81.0691 14.2345 80.2745 14.2971 79.3934 14.2971C78.5123 14.2971 77.719 14.2358 77.0122 14.1025C76.3082 13.9759 75.6892 13.7949 75.1416 13.5567C74.594 13.3199 74.1343 13.0395 73.7418 12.7116C73.3506 12.3836 73.0377 12.0283 72.7824 11.6296C72.5272 11.2308 72.3405 10.813 72.2239 10.3584C72.1072 9.91202 72.0482 8.98383 72.0482 8.51021C72.0482 8.03659 72.1072 7.10976 72.2239 6.65519C72.3515 6.20062 72.5272 5.7828 72.7824 5.38404C73.035 4.9948 73.3492 4.63141 73.7418 4.30206C74.1329 3.9727 74.5927 3.6937 75.1416 3.45689C75.6796 3.22552 76.3068 3.04451 77.0122 2.91114C77.7163 2.77912 78.5219 2.71652 79.3934 2.71652C80.2649 2.71652 81.0595 2.77776 81.7636 2.91114C82.4676 3.03771 83.0852 3.21872 83.6342 3.45689C84.1722 3.6937 84.6443 3.97406 85.0354 4.30206C85.4266 4.63005 85.7395 4.98527 85.9948 5.38404C86.2404 5.7828 86.4271 6.20062 86.5437 6.65519C86.6604 7.10159 86.7194 8.03523 86.7194 8.51021C86.7194 8.98519 86.6631 9.90521 86.5437 10.3584Z"/>
         </svg>
         <div class="brand-copy">
-          <h1>Управленческие отчеты</h1>
+          <h1><a href="https://wiki.enco.ru/spaces/OVKS/pages/255098933/Управленческие+отчеты" target="_blank" rel="noopener noreferrer">Управленческие отчеты</a></h1>
           <p>RM-MR · Road map Management Report</p>
         </div>
       </div>
@@ -465,16 +479,23 @@
       </aside>
     </div>
   <div class="legend-bar">
-    <span class="swatch"><i class="navy"></i> Фундаментал — целевой контур</span>
-    <span class="swatch"><i class="dash"></i> Паллиатив — быстрая управленка на текущих данных</span>
-    <span class="swatch"><i class="dia"></i> Gate: A принимает, команда сдаёт, стейкхолдеры консультируют, СЕО и акционеры информируются</span>
+    <span class="swatch"><i class="navy"></i> <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098933/Управленческие+отчеты#id-Управленческиеотчеты-Ключевыепринципыдорожнойкарты" target="_blank" rel="noopener noreferrer">Фундаментал</a> — целевой контур</span>
+    <span class="swatch"><i class="dash"></i> <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098933/Управленческие+отчеты#id-Управленческиеотчеты-Блок2.4.Паллиативныйтрек(параллельносфундаментальным)" target="_blank" rel="noopener noreferrer">Паллиатив</a> — быстрая управленка на текущих данных</span>
+    <span class="swatch"><i class="dia"></i> <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098999/Легенда+матрицы+RACI" target="_blank" rel="noopener noreferrer">Gate / RACI</a>: A принимает, команда сдаёт, стейкхолдеры консультируют, СЕО и акционеры информируются</span>
     <span class="swatch"><i class="gold"></i> Учётная политика с 01.01.2027</span>
   </div>
   <footer class="site">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 91 17" aria-hidden="true">
       <path fill="#ffffff" d="M19.6188 8.49796C19.6188 13.3635 16.115 16.5209 9.35033 16.5209C2.58565 16.5209 0 16.3467 0 16.3467V13.4873C0 13.4873 4.45901 13.6683 8.60373 13.6683C12.7485 13.6683 15.2861 11.9249 15.5111 9.75414H2.59663V7.23905H15.5111C15.2833 5.06829 13.5129 3.32623 8.60373 3.32623C3.69457 3.32623 0 3.50725 0 3.50725V0.649187C0 0.649187 3.84691 0.474982 9.35033 0.474982C14.8538 0.474982 19.6188 3.63382 19.6188 8.49796ZM61.9019 10.2019C61.6878 10.0141 61.4654 9.82355 61.2252 9.63574C60.9837 9.44792 60.7339 9.271 60.4649 9.1104C60.1959 8.9498 59.9105 8.80282 59.603 8.67761C59.2984 8.55104 58.9731 8.4476 58.63 8.37683C58.9347 8.29245 59.2311 8.18221 59.5001 8.05564C59.7691 7.92907 60.0271 7.79025 60.2783 7.63646C60.5198 7.48267 60.7504 7.31527 60.9727 7.14106C61.195 6.96686 61.3982 6.79265 61.5931 6.60892L67.8294 0.788007H63.1027L57.4593 6.04956C57.2919 6.20335 57.1437 6.34353 57.0064 6.45513C56.8664 6.57353 56.7292 6.67152 56.581 6.7491C56.441 6.83212 56.2845 6.89609 56.1267 6.95189C55.9702 7.00088 55.7836 7.04307 55.5887 7.07029C55.3856 7.09751 55.1523 7.11929 54.8943 7.1329C54.6335 7.14651 54.3288 7.15331 53.9857 7.15331H51.2422V0.789368H47.0714V16.2065H51.2422V9.65071H53.9953C54.3384 9.65071 54.6431 9.65071 54.9039 9.67112C55.1619 9.68473 55.3952 9.70515 55.5901 9.73373C55.7932 9.76095 55.9702 9.80314 56.1281 9.85213C56.2845 9.90113 56.4437 9.97054 56.581 10.0549C56.7209 10.1393 56.8582 10.2359 56.9982 10.3489C57.1368 10.4673 57.2946 10.6007 57.4511 10.7545L63.2976 16.2052H68.3289L61.8881 10.2019H61.9019ZM39.3831 7.21864H26.6319V0.789368H22.4611V16.2065H26.6319V9.73509H39.3831V16.2065H43.5539V0.789368H39.3831V7.21864ZM90.7049 5.92162C90.5018 5.24386 90.1944 4.60147 89.7882 4.00809C89.3792 3.40789 88.8631 2.8635 88.2318 2.37491C87.6033 1.87951 86.8621 1.45897 86.0003 1.11056C85.1384 0.762149 84.1571 0.488592 83.0646 0.293972C81.9722 0.0979906 80.7137 0 79.3989 0C78.0841 0 76.8901 0.0993515 75.8073 0.293972C74.723 0.495397 73.7514 0.768954 72.8909 1.12417C72.029 1.48075 71.2796 1.90673 70.6414 2.40213C69.9937 2.89753 69.4639 3.44192 69.0398 4.03531C68.613 4.63005 68.2987 5.26563 68.0846 5.94204C67.8719 6.61845 67.769 7.76303 67.769 8.4966C67.769 9.23017 67.8623 10.387 68.0654 11.0716C68.2685 11.7561 68.5732 12.3917 68.9822 12.9919C69.3912 13.5921 69.9086 14.1365 70.5385 14.6251C71.1671 15.1137 71.9082 15.541 72.7701 15.8894C73.632 16.2379 74.6119 16.5114 75.7139 16.706C76.8146 16.902 78.0347 17 79.3852 17C80.6876 17 81.8816 16.9006 82.9631 16.706C84.0473 16.5046 85.019 16.231 85.8795 15.8758C86.7414 15.5193 87.4907 15.0933 88.1289 14.5979C88.7767 14.0957 89.3064 13.5499 89.7305 12.9579C90.1573 12.3631 90.4716 11.7276 90.6843 11.0512C90.8984 10.3748 91 9.23697 91 8.5034C91 7.76983 90.9067 6.60756 90.7036 5.92162H90.7049ZM86.5437 10.3584C86.4257 10.813 86.2487 11.2308 85.9948 11.6296C85.7505 12.0188 85.428 12.3822 85.0354 12.7116C84.6443 13.0409 84.1832 13.3199 83.6342 13.5567C83.0962 13.7881 82.469 13.9691 81.7636 14.1025C81.0691 14.2345 80.2745 14.2971 79.3934 14.2971C78.5123 14.2971 77.719 14.2358 77.0122 14.1025C76.3082 13.9759 75.6892 13.7949 75.1416 13.5567C74.594 13.3199 74.1343 13.0395 73.7418 12.7116C73.3506 12.3836 73.0377 12.0283 72.7824 11.6296C72.5272 11.2308 72.3405 10.813 72.2239 10.3584C72.1072 9.91202 72.0482 8.98383 72.0482 8.51021C72.0482 8.03659 72.1072 7.10976 72.2239 6.65519C72.3515 6.20062 72.5272 5.7828 72.7824 5.38404C73.035 4.9948 73.3492 4.63141 73.7418 4.30206C74.1329 3.9727 74.5927 3.6937 75.1416 3.45689C75.6796 3.22552 76.3068 3.04451 77.0122 2.91114C77.7163 2.77912 78.5219 2.71652 79.3934 2.71652C80.2649 2.71652 81.0595 2.77776 81.7636 2.91114C82.4676 3.03771 83.0852 3.21872 83.6342 3.45689C84.1722 3.6937 84.6443 3.97406 85.0354 4.30206C85.4266 4.63005 85.7395 4.98527 85.9948 5.38404C86.2404 5.7828 86.4271 6.20062 86.5437 6.65519C86.6604 7.10159 86.7194 8.03523 86.7194 8.51021C86.7194 8.98519 86.6631 9.90521 86.5437 10.3584Z"/>
     </svg>
-    <p>Мы меняем мир к лучшему, задавая правила и стандарты. Источник: пространство OVKS, страница «Управленческие отчеты» и этапы 1–4. Цифры, маппинг счетов и суммы сюда не выносились.</p>
+    <p>Мы меняем мир к лучшему, задавая правила и стандарты. Источник OVKS:
+      <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098933/Управленческие+отчеты" target="_blank" rel="noopener noreferrer">Управленческие отчеты</a>,
+      <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098938/Этап+1+Методология+и+архитектура" target="_blank" rel="noopener noreferrer">этап 1</a>,
+      <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098939/Этап+2+Консолидация+данных+и+миграция" target="_blank" rel="noopener noreferrer">этап 2</a>,
+      <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098942/Этап+3+Интеграция+учетных+и+операционных+систем" target="_blank" rel="noopener noreferrer">этап 3</a>,
+      <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098995/Этап+4+Построение+отчетности+и+дашбордов" target="_blank" rel="noopener noreferrer">этап 4</a>,
+      <a href="https://wiki.enco.ru/spaces/OVKS/pages/255098999/Легенда+матрицы+RACI" target="_blank" rel="noopener noreferrer">RACI</a>.
+      Этапы 0, 5 и 6 — на родителе. Цифры, маппинг счетов и суммы сюда не выносились.</p>
   </footer>
   </div>
   <script>
@@ -485,6 +506,35 @@
     const MUTED = "#797979";
     const WHITE = "#FFFFFF";
     const LINE = "#E6E6E6";
+
+    const PARENT = "https://wiki.enco.ru/spaces/OVKS/pages/255098933/Управленческие+отчеты";
+    const WIKI = {
+      parent: PARENT,
+      raci: "https://wiki.enco.ru/spaces/OVKS/pages/255098999/Легенда+матрицы+RACI",
+      landscape: PARENT + "#id-Управленческиеотчеты-СводнаякартаИТ-ландшафта",
+      principles: PARENT + "#id-Управленческиеотчеты-Ключевыепринципыдорожнойкарты",
+      palliative: PARENT + "#id-Управленческиеотчеты-Блок2.4.Паллиативныйтрек(параллельносфундаментальным)",
+      fundamental: PARENT + "#id-Управленческиеотчеты-Ключевыепринципыдорожнойкарты",
+      debt: PARENT + "#id-Управленческиеотчеты-Реестртехническогодолга",
+      risks: PARENT + "#id-Управленческиеотчеты-Ключевыерискиимеры",
+      stage: {
+        0: PARENT + "#id-Управленческиеотчеты-Этап0.Подготовка(сентябрь2026)",
+        1: "https://wiki.enco.ru/spaces/OVKS/pages/255098938/Этап+1+Методология+и+архитектура",
+        2: "https://wiki.enco.ru/spaces/OVKS/pages/255098939/Этап+2+Консолидация+данных+и+миграция",
+        3: "https://wiki.enco.ru/spaces/OVKS/pages/255098942/Этап+3+Интеграция+учетных+и+операционных+систем",
+        4: "https://wiki.enco.ru/spaces/OVKS/pages/255098995/Этап+4+Построение+отчетности+и+дашбордов",
+        5: PARENT + "#id-Управленческиеотчеты-Этап5.Внедрениеиобучение(2027,1–2месяца)",
+        6: PARENT + "#id-Управленческиеотчеты-Этап6.Сопровождениеиразвитие(постоянно)"
+      },
+      gate: {
+        0: PARENT + "#id-Управленческиеотчеты-Этап0(Подготовка)",
+        1: "https://wiki.enco.ru/spaces/OVKS/pages/255098938/Этап+1+Методология+и+архитектура",
+        2: "https://wiki.enco.ru/spaces/OVKS/pages/255098939/Этап+2+Консолидация+данных+и+миграция",
+        3: "https://wiki.enco.ru/spaces/OVKS/pages/255098942/Этап+3+Интеграция+учетных+и+операционных+систем",
+        4: "https://wiki.enco.ru/spaces/OVKS/pages/255098995/Этап+4+Построение+отчетности+и+дашбордов",
+        5: PARENT + "#id-Управленческиеотчеты-Этап5(Внедрение)"
+      }
+    };
 
     const STAGES = [
       {
@@ -756,22 +806,22 @@
     ];
 
     const SYSTEMS = [
-      { n: 1, name: "1С:Бухгалтерия", role: "Проводки, остатки, первичка, эскроу", action: "Интеграция через ESB, сверка проводок", gold: true },
-      { n: 2, name: "1С:ЗУП", role: "ФОТ, распределение по проектам", action: "ESB", gold: true },
-      { n: 3, name: "1С:Документооборот", role: "Вспомогательная", action: "По необходимости", gold: false },
-      { n: 4, name: "1С:БитФинанс", role: "Платежи, БДДС, лимиты", action: "ESB", gold: true },
-      { n: 5, name: "1С:УСО", role: "Объёмы СМР, освоение бюджета", action: "ESB", gold: true },
-      { n: 6, name: "ESB Datareon", role: "Транспорт 1С → DWH", action: "Настройка потоков", gold: false },
-      { n: 7, name: "ESB Kafka", role: "CRM, тендеры, СУП → DWH", action: "Настройка потоков", gold: false },
-      { n: 8, name: "АСТ Альфа", role: "Тендеры, подрядчики, договоры", action: "Kafka", gold: false },
-      { n: 9, name: "СУП", role: "Графики, вехи, ресурсы", action: "Kafka", gold: false },
-      { n: 10, name: "MacroCRM", role: "Лиды, брони, сделки до миграции", action: "Миграция в 1С:CRM 4DEV", gold: false },
-      { n: 11, name: "1С:CRM 4DEV", role: "Целевой источник: сделки, страховки, доп. услуги, эскроу", action: "Приём из MacroCRM/MacroERP, сверка с бухгалтерией", gold: true },
-      { n: 12, name: "Битрикс 24", role: "Портал и КЭДО", action: "По необходимости", gold: false },
-      { n: 13, name: "DWH PostgreSQL", role: "Целевая платформа УО. Слои stg_ → dwh_ → dm_", action: "Наполнение из ESB, витрины", gold: false },
-      { n: 14, name: "Power BI", role: "Целевой инструмент отчётности", action: "Подключение к DWH", gold: false },
-      { n: 15, name: "MacroERP", role: "Ремонты и страхование. Выводится из эксплуатации", action: "Миграция в 1С:CRM 4DEV", gold: false },
-      { n: 16, name: "Банки (Сбер и др.)", role: "Выписки, остатки, раскрытие эскроу", action: "API, оптимизация выгрузки эскроу", gold: true }
+      { n: 1, name: "1С:Бухгалтерия", role: "Проводки, остатки, первичка, эскроу", action: "Интеграция через ESB, сверка проводок", gold: true, wiki: PARENT + "#id-Управленческиеотчеты-СводнаякартаИТ-ландшафта" },
+      { n: 2, name: "1С:ЗУП", role: "ФОТ, распределение по проектам", action: "ESB", gold: true, wiki: PARENT + "#id-Управленческиеотчеты-СводнаякартаИТ-ландшафта" },
+      { n: 3, name: "1С:Документооборот", role: "Вспомогательная", action: "По необходимости", gold: false, wiki: PARENT + "#id-Управленческиеотчеты-СводнаякартаИТ-ландшафта" },
+      { n: 4, name: "1С:БитФинанс", role: "Платежи, БДДС, лимиты", action: "ESB", gold: true, wiki: PARENT + "#id-Управленческиеотчеты-СводнаякартаИТ-ландшафта" },
+      { n: 5, name: "1С:УСО", role: "Объёмы СМР, освоение бюджета", action: "ESB", gold: true, wiki: PARENT + "#id-Управленческиеотчеты-СводнаякартаИТ-ландшафта" },
+      { n: 6, name: "ESB Datareon", role: "Транспорт 1С → DWH", action: "Настройка потоков", gold: false, wiki: PARENT + "#id-Управленческиеотчеты-Блок3.1.ИнтеграциичерезESBDatareon(1С-системы)" },
+      { n: 7, name: "ESB Kafka", role: "CRM, тендеры, СУП → DWH", action: "Настройка потоков", gold: false, wiki: PARENT + "#id-Управленческиеотчеты-Блок3.2.ИнтеграциичерезESBKafka(не-1Ссистемы)" },
+      { n: 8, name: "АСТ Альфа", role: "Тендеры, подрядчики, договоры", action: "Kafka", gold: false, wiki: PARENT + "#id-Управленческиеотчеты-Блок3.2.ИнтеграциичерезESBKafka(не-1Ссистемы)" },
+      { n: 9, name: "СУП", role: "Графики, вехи, ресурсы", action: "Kafka", gold: false, wiki: PARENT + "#id-Управленческиеотчеты-Блок3.2.ИнтеграциичерезESBKafka(не-1Ссистемы)" },
+      { n: 10, name: "MacroCRM", role: "Лиды, брони, сделки до миграции", action: "Миграция в 1С:CRM 4DEV", gold: false, wiki: PARENT + "#id-Управленческиеотчеты-Блок2.2.МиграциясделокизMacroCRMв1С:CRM4DEV" },
+      { n: 11, name: "1С:CRM 4DEV", role: "Целевой источник: сделки, страховки, доп. услуги, эскроу", action: "Приём из MacroCRM/MacroERP, сверка с бухгалтерией", gold: true, wiki: PARENT + "#id-Управленческиеотчеты-Блок2.2.МиграциясделокизMacroCRMв1С:CRM4DEV" },
+      { n: 12, name: "Битрикс 24", role: "Портал и КЭДО", action: "По необходимости", gold: false, wiki: PARENT + "#id-Управленческиеотчеты-Блок3.2.ИнтеграциичерезESBKafka(не-1Ссистемы)" },
+      { n: 13, name: "DWH PostgreSQL", role: "Целевая платформа УО. Слои stg_ → dwh_ → dm_", action: "Наполнение из ESB, витрины", gold: false, wiki: WIKI.stage[3] },
+      { n: 14, name: "Power BI", role: "Целевой инструмент отчётности", action: "Подключение к DWH", gold: false, wiki: WIKI.stage[4] },
+      { n: 15, name: "MacroERP", role: "Ремонты и страхование. Выводится из эксплуатации", action: "Миграция в 1С:CRM 4DEV", gold: false, wiki: PARENT + "#id-Управленческиеотчеты-Блок2.3.МиграцияданныхизMacroERPв1С:CRM4DEV" },
+      { n: 16, name: "Банки (Сбер и др.)", role: "Выписки, остатки, раскрытие эскроу", action: "API, оптимизация выгрузки эскроу", gold: true, wiki: PARENT + "#id-Управленческиеотчеты-Блок3.3.Интеграциясбанками(СберAPIидругие)" }
     ];
 
     const DEBT = [
@@ -806,9 +856,38 @@
       return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     }
 
+    function wikiHref(href, label, extra) {
+      return '<a class="wiki" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer"' + (extra || "") + ">" + label + "</a>";
+    }
+
+    function svgWiki(href, inner, extra) {
+      return '<a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer"' + (extra || "") + ">" + inner + "</a>";
+    }
+
+    function linkify(text) {
+      let s = esc(text);
+      const put = (re, html) => { s = s.replace(re, html); };
+      put(/Легенда матрицы RACI/g, wikiHref(WIKI.raci, "Легенда матрицы RACI"));
+      put(/\bRACI\b/g, wikiHref(WIKI.raci, "RACI"));
+      put(/родительской странице/g, wikiHref(WIKI.parent, "родительской странице"));
+      put(/на родителе/g, "на " + wikiHref(WIKI.parent, "родителе"));
+      put(/с родителя/g, "с " + wikiHref(WIKI.parent, "родителя"));
+      put(/Родитель —/g, wikiHref(WIKI.parent, "Родитель") + " —");
+      put(/Управленческие отчеты/g, wikiHref(WIKI.parent, "Управленческие отчеты"));
+      put(/этапы\s*5[–-]\s*6/gi, wikiHref(WIKI.stage[5], "этап 5") + "–" + wikiHref(WIKI.stage[6], "6"));
+      put(/этапы\s*4[–-]\s*5/gi, wikiHref(WIKI.stage[4], "этап 4") + "–" + wikiHref(WIKI.stage[5], "5"));
+      put(/этапов\s*2[–-]\s*6/gi, "этапов " + wikiHref(WIKI.stage[2], "2") + "–" + wikiHref(WIKI.stage[6], "6"));
+      put(/план 2[–-]6/gi, "план " + wikiHref(WIKI.stage[2], "2") + "–" + wikiHref(WIKI.stage[6], "6"));
+      for (let id = 6; id >= 0; id--) {
+        put(new RegExp("(этап(?:а|у|е|ом|ов|ы)?)\\s*" + id, "gi"), (m) => wikiHref(WIKI.stage[id], m));
+      }
+      put(/Gate\s*([0-5])/g, (_, n) => wikiHref(WIKI.gate[Number(n)], "Gate " + n));
+      return s;
+    }
+
     function list(items) {
       if (!items || !items.length) return '<p class="empty">Нет отдельного паллиатива на этом этапе.</p>';
-      return "<ul>" + items.map((x) => "<li>" + esc(x) + "</li>").join("") + "</ul>";
+      return "<ul>" + items.map((x) => "<li>" + linkify(x) + "</li>").join("") + "</ul>";
     }
 
     STAGES.forEach((s) => {
@@ -863,15 +942,15 @@
       document.querySelectorAll(".stage-chip").forEach((c) => {
         c.setAttribute("aria-pressed", c.dataset.stage === String(id) ? "true" : "false");
       });
-      panelH.innerHTML = '<p class="num">Этап ' + s.id + ' · Gate ' + s.id + '</p><h2>' + esc(s.title) + '</h2><p class="when">' + esc(s.period) + ' · A: ' + esc(s.owners) + '</p>';
+      panelH.innerHTML = '<p class="num">' + wikiHref(WIKI.stage[s.id], "Этап " + s.id) + " · " + wikiHref(WIKI.gate[s.id] || WIKI.stage[s.id], "Gate " + s.id) + "</p><h2>" + wikiHref(WIKI.stage[s.id], esc(s.title)) + '</h2><p class="when">' + esc(s.period) + " · A: " + esc(s.owners) + "</p>";
       panelBody.innerHTML =
-        "<div><h3>Цель</h3><p>" + esc(s.goal) + "</p></div>" +
-        '<div class="tracks"><article class="f"><h3>Фундаментал</h3>' + list(s.fundamental) + "</article>" +
-        '<article class="p"><h3>Паллиатив</h3>' + list(s.palliative) + "</article></div>" +
+        "<div><h3>Цель</h3><p>" + linkify(s.goal) + "</p></div>" +
+        '<div class="tracks"><article class="f"><h3>' + wikiHref(WIKI.fundamental, "Фундаментал") + "</h3>" + list(s.fundamental) + "</article>" +
+        '<article class="p"><h3>' + wikiHref(WIKI.palliative, "Паллиатив") + "</h3>" + list(s.palliative) + "</article></div>" +
         "<div><h3>Календарь</h3>" + list(s.calendar) + "</div>" +
-        "<div><h3>Gate</h3>" + list(s.gate) + "</div>" +
+        "<div><h3>" + wikiHref(WIKI.gate[s.id] || WIKI.stage[s.id], "Gate") + "</h3>" + list(s.gate) + "</div>" +
         "<div><h3>Deliverables</h3>" + list(s.deliverables) + "</div>" +
-        (s.notes && s.notes.length ? '<div class="callout">' + s.notes.map(esc).join("<br><br>") + "</div>" : "");
+        (s.notes && s.notes.length ? '<div class="callout">' + s.notes.map(linkify).join("<br><br>") + "</div>" : "");
       panel.classList.add("open");
       panel.setAttribute("aria-hidden", "false");
       history.replaceState(null, "", "#e" + id);
@@ -919,20 +998,19 @@
       g += `<text x="${policyX + 8}" y="64" fill="${NAVY}" font-size="11" font-weight="600" font-family="Montserrat, Arial, sans-serif">Учётная политика 01.01.2027</text>`;
 
       if (state.tracks.fundamental) {
-        g += `<text x="40" y="${yF - 22}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ФУНДАМЕНТАЛ</text>`;
+        g += svgWiki(WIKI.fundamental, `<text x="40" y="${yF - 22}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ФУНДАМЕНТАЛ</text>`);
         g += `<path d="M${xs[0]} ${yF} L${xs[6]} ${yF}" fill="none" stroke="${NAVY}" stroke-width="6" />`;
       }
       g += `<path d="M${xs[0]} ${yS} L${xs[6]} ${yS}" fill="none" stroke="${NAVY}" stroke-width="3" />`;
       if (state.tracks.palliative) {
-        g += `<text x="40" y="${yP + 5}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ПАЛЛИАТИВ</text>`;
-        g += `<path d="M${xs[pallFrom]} ${yP} L${xs[pallTo]} ${yP}" fill="none" stroke="${GOLD}" stroke-width="6" stroke-dasharray="10 8" />`;
-        g += `<text x="${(xs[2] + xs[3]) / 2}" y="${yP + 32}" text-anchor="middle" fill="${MUTED}" font-size="11" font-family="Montserrat, Arial, sans-serif">обмен и минимальные отчёты → замена на интеграции → отказ от паллиативных отчётов</text>`;
+        g += svgWiki(WIKI.palliative, `<text x="40" y="${yP + 5}" fill="${NAVY}" font-size="12" font-weight="600" letter-spacing="1.2" font-family="Montserrat, Arial, sans-serif">ПАЛЛИАТИВ</text>`);
+        g += svgWiki(WIKI.palliative, `<path d="M${xs[pallFrom]} ${yP} L${xs[pallTo]} ${yP}" fill="none" stroke="${GOLD}" stroke-width="6" stroke-dasharray="10 8" />`);
+        g += svgWiki(WIKI.palliative, `<text x="${(xs[2] + xs[3]) / 2}" y="${yP + 32}" text-anchor="middle" fill="${MUTED}" font-size="11" font-family="Montserrat, Arial, sans-serif">обмен и минимальные отчёты → замена на интеграции → отказ от паллиативных отчётов</text>`);
       }
 
       for (let i = 0; i < 6; i++) {
         const gx = (xs[i] + xs[i + 1]) / 2;
-        g += `<polygon data-gate="${i}" points="${gx},${yS - 11} ${gx + 11},${yS} ${gx},${yS + 11} ${gx - 11},${yS}" fill="${GOLD}" stroke="${NAVY}" stroke-width="1" style="cursor:pointer" />`;
-        g += `<text x="${gx}" y="${yS - 18}" text-anchor="middle" fill="${MUTED}" font-size="10" font-weight="600" font-family="Montserrat, Arial, sans-serif">GATE ${i}</text>`;
+        g += svgWiki(WIKI.gate[i], `<g data-gate="${i}"><polygon points="${gx},${yS - 11} ${gx + 11},${yS} ${gx},${yS + 11} ${gx - 11},${yS}" fill="${GOLD}" stroke="${NAVY}" stroke-width="1" /><text x="${gx}" y="${yS - 18}" text-anchor="middle" fill="${MUTED}" font-size="10" font-weight="600" font-family="Montserrat, Arial, sans-serif">GATE ${i}</text></g>`);
       }
 
       STAGES.forEach((s, i) => {
@@ -941,17 +1019,12 @@
         const fill = on ? GOLD : WHITE;
         const stroke = nodeColor(s.id);
         if (state.tracks.fundamental) {
-          g += `<circle cx="${x}" cy="${yF}" r="7" fill="${NAVY}" />`;
+          g += svgWiki(WIKI.stage[s.id], `<circle cx="${x}" cy="${yF}" r="7" fill="${NAVY}" data-stage="${s.id}" />`);
         }
         if (state.tracks.palliative && i >= pallFrom && i <= pallTo) {
-          g += `<circle cx="${x}" cy="${yP}" r="7" fill="${GOLD}" />`;
+          g += svgWiki(WIKI.palliative, `<circle cx="${x}" cy="${yP}" r="7" fill="${GOLD}" data-stage="${s.id}" />`);
         }
-        g += `<g data-stage="${s.id}" style="cursor:pointer">`;
-        g += `<circle cx="${x}" cy="${yS}" r="${on ? 28 : 24}" fill="${fill}" stroke="${stroke}" stroke-width="3" />`;
-        g += `<text x="${x}" y="${yS + 5}" text-anchor="middle" fill="${on ? NAVY : NAVY}" font-size="16" font-weight="700" font-family="Montserrat, Arial, sans-serif">${s.id}</text>`;
-        g += `<text x="${x}" y="${yS + 48}" text-anchor="middle" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">${esc(s.short)}</text>`;
-        g += `<text x="${x}" y="${yS + 66}" text-anchor="middle" fill="${MUTED}" font-size="11" font-family="Montserrat, Arial, sans-serif">${esc(s.period)}</text>`;
-        g += `</g>`;
+        g += svgWiki(WIKI.stage[s.id], `<g data-stage="${s.id}"><circle cx="${x}" cy="${yS}" r="${on ? 28 : 24}" fill="${fill}" stroke="${stroke}" stroke-width="3" /><text x="${x}" y="${yS + 5}" text-anchor="middle" fill="${NAVY}" font-size="16" font-weight="700" font-family="Montserrat, Arial, sans-serif">${s.id}</text><text x="${x}" y="${yS + 48}" text-anchor="middle" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">${esc(s.short)}</text><text x="${x}" y="${yS + 66}" text-anchor="middle" fill="${MUTED}" font-size="11" font-family="Montserrat, Arial, sans-serif">${esc(s.period)}</text></g>`);
       });
       svg.innerHTML = g;
       bindMap();
@@ -966,13 +1039,13 @@
       let g = "";
       g += `<text x="24" y="32" fill="${NAVY}" font-size="13" font-weight="600" font-family="Montserrat, Arial, sans-serif">Этапы 0–6</text>`;
       if (state.tracks.fundamental) {
-        g += `<text x="24" y="54" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ФУНД.</text>`;
+        g += svgWiki(WIKI.fundamental, `<text x="24" y="54" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ФУНД.</text>`);
         g += `<path d="M${xF} ${ys[0]} L${xF} ${ys[6]}" stroke="${NAVY}" stroke-width="5" />`;
       }
       g += `<path d="M${xS} ${ys[0]} L${xS} ${ys[6]}" stroke="${NAVY}" stroke-width="3" />`;
       if (state.tracks.palliative) {
-        g += `<text x="336" y="54" text-anchor="end" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ПАЛЛ.</text>`;
-        g += `<path d="M${xP} ${ys[2]} L${xP} ${ys[4]}" stroke="${GOLD}" stroke-width="5" stroke-dasharray="8 6" />`;
+        g += svgWiki(WIKI.palliative, `<text x="336" y="54" text-anchor="end" fill="${NAVY}" font-size="9" font-weight="600" font-family="Montserrat, Arial, sans-serif">ПАЛЛ.</text>`);
+        g += svgWiki(WIKI.palliative, `<path d="M${xP} ${ys[2]} L${xP} ${ys[4]}" stroke="${GOLD}" stroke-width="5" stroke-dasharray="8 6" />`);
       }
       const policyY = (ys[2] + ys[3]) / 2;
       g += `<line x1="24" y1="${policyY}" x2="336" y2="${policyY}" stroke="${GOLD}" stroke-width="2" stroke-dasharray="4 6" />`;
@@ -980,19 +1053,14 @@
 
       for (let i = 0; i < 6; i++) {
         const gy = (ys[i] + ys[i + 1]) / 2;
-        g += `<polygon data-gate="${i}" points="${xS},${gy - 9} ${xS + 9},${gy} ${xS},${gy + 9} ${xS - 9},${gy}" fill="${GOLD}" stroke="${NAVY}" stroke-width="1" style="cursor:pointer" />`;
+        g += svgWiki(WIKI.gate[i], `<polygon data-gate="${i}" points="${xS},${gy - 9} ${xS + 9},${gy} ${xS},${gy + 9} ${xS - 9},${gy}" fill="${GOLD}" stroke="${NAVY}" stroke-width="1" />`);
       }
       STAGES.forEach((s, i) => {
         const y = ys[i];
         const on = state.selected === s.id;
-        if (state.tracks.fundamental) g += `<circle cx="${xF}" cy="${y}" r="6" fill="${NAVY}" />`;
-        if (state.tracks.palliative && i >= 2 && i <= 4) g += `<circle cx="${xP}" cy="${y}" r="6" fill="${GOLD}" />`;
-        g += `<g data-stage="${s.id}" style="cursor:pointer">`;
-        g += `<circle cx="${xS}" cy="${y}" r="${on ? 26 : 22}" fill="${on ? GOLD : WHITE}" stroke="${nodeColor(s.id)}" stroke-width="3" />`;
-        g += `<text x="${xS}" y="${y + 5}" text-anchor="middle" fill="${NAVY}" font-size="15" font-weight="700" font-family="Montserrat, Arial, sans-serif">${s.id}</text>`;
-        g += `<text x="${xS}" y="${y + 42}" text-anchor="middle" fill="${NAVY}" font-size="12" font-weight="600" font-family="Montserrat, Arial, sans-serif">${esc(s.short)}</text>`;
-        g += `<text x="${xS}" y="${y + 58}" text-anchor="middle" fill="${MUTED}" font-size="10" font-family="Montserrat, Arial, sans-serif">${esc(s.period)}</text>`;
-        g += `</g>`;
+        if (state.tracks.fundamental) g += svgWiki(WIKI.stage[s.id], `<circle cx="${xF}" cy="${y}" r="6" fill="${NAVY}" data-stage="${s.id}" />`);
+        if (state.tracks.palliative && i >= 2 && i <= 4) g += svgWiki(WIKI.palliative, `<circle cx="${xP}" cy="${y}" r="6" fill="${GOLD}" data-stage="${s.id}" />`);
+        g += svgWiki(WIKI.stage[s.id], `<g data-stage="${s.id}"><circle cx="${xS}" cy="${y}" r="${on ? 26 : 22}" fill="${on ? GOLD : WHITE}" stroke="${nodeColor(s.id)}" stroke-width="3" /><text x="${xS}" y="${y + 5}" text-anchor="middle" fill="${NAVY}" font-size="15" font-weight="700" font-family="Montserrat, Arial, sans-serif">${s.id}</text><text x="${xS}" y="${y + 42}" text-anchor="middle" fill="${NAVY}" font-size="12" font-weight="600" font-family="Montserrat, Arial, sans-serif">${esc(s.short)}</text><text x="${xS}" y="${y + 58}" text-anchor="middle" fill="${MUTED}" font-size="10" font-family="Montserrat, Arial, sans-serif">${esc(s.period)}</text></g>`);
       });
       svg.innerHTML = g;
       bindMap();
@@ -1035,50 +1103,50 @@
     }
 
     document.getElementById("view-principles").innerHTML = `
-      <p class="lead"><strong>Цель.</strong> Собрать контур управленческих отчетов (УО) на уже существующих системах: единая методология, мастер-данные, интеграции, хранилище и отчёты для решений. Сначала логичная конструкция данных, потом алгоритмы управленки.</p>
+      <p class="lead"><strong>Цель.</strong> Собрать контур ${wikiHref(WIKI.parent, "управленческих отчетов")} (УО) на уже существующих системах: единая методология, мастер-данные, интеграции, хранилище и отчёты для решений. Сначала логичная конструкция данных, потом алгоритмы управленки. ${wikiHref(WIKI.principles, "Принципы в wiki →")}</p>
       <div class="cards">
-        <article class="card"><p class="meta">01</p><h3>Консолидация, не greenfield</h3><p>Используем текущие системы, унифицируем и интегрируем.</p></article>
-        <article class="card"><p class="meta">02</p><h3>MDM как фундамент</h3><p>1С:МДМ — единый источник мастер-данных.</p></article>
-        <article class="card"><p class="meta">03</p><h3>Две ESB</h3><p>Datareon для 1С, Kafka для не-1С.</p></article>
-        <article class="card"><p class="meta">04</p><h3>Целевая аналитика</h3><p>DWH на PostgreSQL + Power BI.</p></article>
-        <article class="card"><p class="meta">05</p><h3>Эскроу — критический поток</h3><p>Ошибка = искажение выручки; временные упрощения нельзя.</p></article>
-        <article class="card"><p class="meta">06</p><h3>Два трека</h3><p>Паллиатив (управленка быстро, на текущих данных) и фундаментал (целевой контур). Паллиатив не должен противоречить фундаменталу.</p></article>
-        <article class="card"><p class="meta">07</p><h3>Временное ↔ фундаментальное</h3><p>Временное допустимо, только если данные перекладываются без потерь, есть срок замены, ответственный и запись в реестре техдолга.</p></article>
-        <article class="card"><p class="meta">08</p><h3>Учётная политика с 01.01.2027</h3><p>Логику управленки готовить заранее, с возможностью строить УО от определённой даты.</p></article>
+        <article class="card"><p class="meta">01</p><h3>${wikiHref(WIKI.principles, "Консолидация, не greenfield")}</h3><p>Используем текущие системы, унифицируем и интегрируем.</p></article>
+        <article class="card"><p class="meta">02</p><h3>${wikiHref(WIKI.stage[1], "MDM как фундамент")}</h3><p>1С:МДМ — единый источник мастер-данных.</p></article>
+        <article class="card"><p class="meta">03</p><h3>${wikiHref(WIKI.stage[3], "Две ESB")}</h3><p>Datareon для 1С, Kafka для не-1С.</p></article>
+        <article class="card"><p class="meta">04</p><h3>${wikiHref(WIKI.stage[4], "Целевая аналитика")}</h3><p>DWH на PostgreSQL + Power BI.</p></article>
+        <article class="card"><p class="meta">05</p><h3>${wikiHref(PARENT + "#id-Управленческиеотчеты-Блок1.4.ПроектированиепроцессаЭСКРОУ", "Эскроу — критический поток")}</h3><p>Ошибка = искажение выручки; временные упрощения нельзя.</p></article>
+        <article class="card"><p class="meta">06</p><h3>${wikiHref(WIKI.palliative, "Два трека")}</h3><p>${wikiHref(WIKI.palliative, "Паллиатив")} (управленка быстро, на текущих данных) и ${wikiHref(WIKI.fundamental, "фундаментал")} (целевой контур). Паллиатив не должен противоречить фундаменталу.</p></article>
+        <article class="card"><p class="meta">07</p><h3>${wikiHref(WIKI.debt, "Временное ↔ фундаментальное")}</h3><p>Временное допустимо, только если данные перекладываются без потерь, есть срок замены, ответственный и запись в реестре техдолга.</p></article>
+        <article class="card"><p class="meta">08</p><h3>${wikiHref(PARENT + "#id-Управленческиеотчеты-Блок1.5.Подготовкалогикиуправленкиподновуюучетнуюполитику", "Учётная политика с 01.01.2027")}</h3><p>Логику управленки готовить заранее, с возможностью строить УО от определённой даты.</p></article>
       </div>
       <p class="lead">Что нельзя делать временным: методология учёта (план счетов, аналитики, классификаторы), архитектура слоёв и безопасности, процесс эскроу. Что можно (с планом замены): технологии (СУБД, ETL, BI), упрощённые формы, ручные выгрузки, базовые регламенты.</p>
     `;
 
     document.getElementById("view-systems").innerHTML =
-      '<p class="lead"><strong>Золотые источники</strong> (этап 1): проекты — 1С:МДМ; продажи — 1С:CRM 4DEV; бухучёт — 1С:Бухгалтерия; СМР — 1С:УСО; ФОТ — 1С:ЗУП; платежи — 1С:БитФинанс; эскроу — банк (первично) + бухгалтерия (учётно). Золотая кромка — эти источники.</p><div class="sys-grid">' +
-      SYSTEMS.map((s) => `<button class="sys${s.gold ? " gold-src" : ""}" type="button"><span class="k">${String(s.n).padStart(2, "0")}${s.gold ? " · золотой источник" : ""}</span><strong>${esc(s.name)}</strong><span>${esc(s.role)}. ${esc(s.action)}</span></button>`).join("") +
+      '<p class="lead"><strong>' + wikiHref(WIKI.landscape, "Золотые источники") + "</strong> (" + wikiHref(WIKI.stage[1], "этап 1") + "): проекты — 1С:МДМ; продажи — 1С:CRM 4DEV; бухучёт — 1С:Бухгалтерия; СМР — 1С:УСО; ФОТ — 1С:ЗУП; платежи — 1С:БитФинанс; эскроу — банк (первично) + бухгалтерия (учётно). Золотая кромка — эти источники.</p><div class=\"sys-grid\">" +
+      SYSTEMS.map((s) => `<a class="sys${s.gold ? " gold-src" : ""}" href="${esc(s.wiki)}" target="_blank" rel="noopener noreferrer"><span class="k">${String(s.n).padStart(2, "0")}${s.gold ? " · золотой источник" : ""}</span><strong>${esc(s.name)}</strong><span>${esc(s.role)}. ${esc(s.action)}</span></a>`).join("") +
       "</div>";
 
     document.getElementById("view-debt").innerHTML =
-      '<p class="lead">Сводка с родителя. «Срок замены» — целевой этап закрытия, не отметка что уже сделано.</p><div class="table-wrap"><table><thead><tr><th>№</th><th>Временное</th><th>Фундаментальное</th><th>Замена</th><th>Кто</th></tr></thead><tbody>' +
-      DEBT.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("") +
+      '<p class="lead">Сводка ' + wikiHref(WIKI.debt, "с родителя") + ". «Срок замены» — целевой этап закрытия, не отметка что уже сделано.</p><div class=\"table-wrap\"><table><thead><tr><th>№</th><th>Временное</th><th>Фундаментальное</th><th>Замена</th><th>Кто</th></tr></thead><tbody>" +
+      DEBT.map((r, i) => `<tr><td>${i + 1}</td><td>${linkify(r[0])}</td><td>${linkify(r[1])}</td><td>${linkify(r[2])}</td><td>${esc(r[3])}</td></tr>`).join("") +
       "</tbody></table></div>";
 
     document.getElementById("view-risks").innerHTML = `
       <div class="cards">
-        <article class="card"><h3>Риски родителя</h3><ul>
+        <article class="card"><h3>${wikiHref(WIKI.risks, "Риски родителя")}</h3><ul>
           <li>Потеря данных при миграции; незавершённые сделки MacroCRM</li>
           <li>Расхождения CRM и бухгалтерии; данные с 2012</li>
           <li>Сложность двух ESB; ошибки и задержки эскроу; разные форматы банков</li>
-          <li>Сопротивление бизнеса (вовлекать с этапа 0); качество мастер-данных</li>
-          <li>Паллиатив, который станет фундаментом</li>
+          <li>Сопротивление бизнеса (вовлекать с ${wikiHref(WIKI.stage[0], "этапа 0")}); качество мастер-данных</li>
+          <li>${wikiHref(WIKI.palliative, "Паллиатив")}, который станет фундаментом</li>
           <li>Новая учётная политика 01.01.2027</li>
         </ul></article>
         <article class="card"><h3>Открытые пункты страниц</h3><ul>
           <li>Методология УО не готова совместно с Инстеп</li>
-          <li>Даты паллиативного обмена: 01.11.2026 vs до 30.09.2026 + ноябрь — нужно одно число</li>
-          <li>Этапы 5–6 нет отдельных страниц</li>
+          <li>Даты паллиативного обмена: 01.11.2026 vs до 30.09.2026 + ноябрь — нужно одно число. ${wikiHref(WIKI.parent, "Родитель")} и ${wikiHref(WIKI.stage[2], "этап 2")}.</li>
+          <li>${wikiHref(WIKI.stage[5], "Этапы 5")}–${wikiHref(WIKI.stage[6], "6")} нет отдельных страниц</li>
           <li>Выбор ETL и Data Catalog не зафиксирован</li>
-          <li>Пилотные 1–2 проекта этапа 5 не названы</li>
+          <li>Пилотные 1–2 проекта ${wikiHref(WIKI.stage[5], "этапа 5")} не названы</li>
           <li>Бюджет и численность MDM-коробки оценить до 30.09; в тексте сумм нет</li>
-          <li>Gate 0: сроки до 19.09 и показ Яковлеву 19–22.09 — статус исполнения на странице не отмечен</li>
+          <li>${wikiHref(WIKI.gate[0], "Gate 0")}: сроки до 19.09 и показ Яковлеву 19–22.09 — статус исполнения на странице не отмечен</li>
         </ul></article>
-        <article class="card"><h3>RACI · Gate любого этапа</h3><p>A — владелец этапа; R — команда; C — стейкхолдеры; I — СЕО, акционеры. На задачу ровно один A. Матрица по ролям, не по фамилиям.</p></article>
+        <article class="card"><h3>${wikiHref(WIKI.raci, "RACI")} · Gate любого этапа</h3><p>A — владелец этапа; R — команда; C — стейкхолдеры; I — СЕО, акционеры. На задачу ровно один A. Матрица по ролям, не по фамилиям. ${wikiHref(WIKI.raci, "Легенда матрицы RACI →")}</p></article>
       </div>
     `;
 
